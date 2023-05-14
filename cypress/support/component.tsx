@@ -20,20 +20,31 @@ import "./commands";
 // require('./commands')
 
 import { mount } from "cypress/react18";
+import { MountOptions, MountReturn } from "cypress/react";
+import { ReactNode } from "react";
+import { ThemeProvider } from "styled-components";
+import { theme } from "../../src/theme";
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
-      mount: typeof mount;
+      mount: (
+        element: ReactNode,
+        options?: MountOptions
+      ) => Chainable<MountReturn>;
     }
   }
 }
 
-Cypress.Commands.add("mount", mount);
+Cypress.Commands.add("mount", (children, options = {}) => {
+  const wrapper = <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return mount(wrapper, options);
+});
 
 // Example use:
 // cy.mount(<MyComponent />)
