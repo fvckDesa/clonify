@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "./src/**/*.ts": [
+    "./src/**/*.{ts,tsx}": [
       "pnpm lint:fix",
       "pnpm format"
     ],
