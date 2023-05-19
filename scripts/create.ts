@@ -15,28 +15,38 @@ function isValidComponent(name: string, folder: string) {
   return !fs.existsSync(componentsPath);
 }
 
-const { folder } = await prompts({
-  type: "select",
-  name: "folder",
-  message: "Component folder?",
-  choices: [
-    { title: "components", value: "components", selected: true },
-    { title: "routes", value: "routes" },
-  ],
-});
+function onCancel() {
+  process.exit(1);
+}
 
-const { componentName } = await prompts({
-  type: "text",
-  name: "componentName",
-  message: "Component name?",
-  format: (name) => capitalize(name),
-  validate: (name) =>
-    isValidComponent(capitalize(name), folder) || errMessage(name, folder),
-});
+const { folder } = await prompts(
+  {
+    type: "select",
+    name: "folder",
+    message: "Component folder?",
+    choices: [
+      { title: "components", value: "components", selected: true },
+      { title: "routes", value: "routes" },
+    ],
+  },
+  { onCancel }
+);
+
+const { componentName } = await prompts(
+  {
+    type: "text",
+    name: "componentName",
+    message: "Component name?",
+    format: (name) => capitalize(name),
+    validate: (name) =>
+      isValidComponent(capitalize(name), folder) || errMessage(name, folder),
+  },
+  { onCancel }
+);
 
 const INDEX_FILE = [
   `export ${
-    folder === "components" ? "*" : `{ default as ${componentName} }`
+    folder === "components" ? "{ default }" : `{ default as ${componentName} }`
   } from "./${componentName}"`,
   folder === "components"
     ? `export type { ${componentName}Props } from "./${componentName}"`
