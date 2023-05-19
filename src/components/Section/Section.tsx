@@ -4,16 +4,21 @@ import Card from "../Card";
 
 export interface SectionProps {
   title: string;
+  className?: string;
   inline?: boolean;
 }
 
 const MIN_CARD_WIDTH = 157;
 
-function Section({ title, inline = false }: SectionProps) {
+// TODO fix section inline render logic
+// add -> max-width * n < width
+// remove -> min-width * n > width
+
+function Section({ title, className = "", inline = false }: SectionProps) {
   const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
 
   return (
-    <Layout>
+    <Layout className={className}>
       <Header>
         <h2>{title}</h2>
         {inline ? <h3>show all</h3> : null}

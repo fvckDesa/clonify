@@ -7,6 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    border: none;
     outline: none;
     font-family: -apple-system, system-ui, "Segoe UI", Roboto, Noto, Oxygen-Sans,
       Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji",
