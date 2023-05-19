@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Section from "../../components/Section";
-import CollectionHeader from "../../components/CollectionHeader";
-import CollectionList from "../../components/CollectionList";
-import type { Columns } from "../../components/CollectionList/type";
+import Section from "@components/Section";
+import CollectionHeader from "@components/CollectionHeader";
+import CollectionList from "@components/CollectionList";
+import type { Columns } from "@components/CollectionList/type";
 
 const columns: Columns<{ title: string; duration: number }> = {
   title: {

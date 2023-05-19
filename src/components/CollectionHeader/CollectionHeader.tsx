@@ -1,4 +1,4 @@
-import type { CollectionType } from "../../types/collection";
+import type { CollectionType } from "@/types/collection";
 import styled from "styled-components";
 
 export interface CollectionHeaderProps {

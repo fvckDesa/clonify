@@ -1,8 +1,8 @@
 import type { Columns } from "./type";
 import { ReactNode, useMemo } from "react";
 import styled from "styled-components";
-import { entries, values } from "../../utils/object";
-import { cssUnit } from "../../utils/cssUnits";
+import { entries, values } from "@/utils/object";
+import { cssUnit } from "@/utils/cssUnits";
 
 export interface CollectionListProps<ColumnsDef extends object> {
   columns: Columns<ColumnsDef>;

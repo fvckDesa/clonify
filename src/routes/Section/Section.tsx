@@ -1,4 +1,4 @@
-import Section from "../../components/Section";
+import Section from "@components/Section";
 
 function SectionPage() {
   return <Section title="test" />;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useColumns } from "./useColumns";
-import Card from "../Card";
+import Card from "@components/Card";
 
 export interface SectionProps {
   title: string;
