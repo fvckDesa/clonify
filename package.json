@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "cy:open": "cypress open",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "pnpm lint --fix",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown *",
@@ -22,6 +22,9 @@
     "*": "pnpm format"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",

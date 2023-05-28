@@ -2,7 +2,9 @@ import styled from "styled-components";
 import Section from "@components/Section";
 import CollectionHeader from "@components/CollectionHeader";
 import CollectionList from "@components/CollectionList";
+import PlayBtn from "@components/PlayBtn/PlayBtn";
 import type { Columns } from "@components/CollectionList/type";
+import { useState } from "react";
 
 const columns: Columns<{ title: string; duration: number }> = {
   title: {
@@ -17,6 +19,12 @@ const columns: Columns<{ title: string; duration: number }> = {
 };
 
 function Album() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function handlerClick() {
+    setIsPlaying((prev) => !prev);
+  }
+
   return (
     <Wrapper>
       <CollectionHeader
@@ -27,6 +35,9 @@ function Album() {
         tracksNum={5}
         duration={10}
       />
+      <Actions>
+        <PlayBtn isPlaying={isPlaying} size="lg" onClick={handlerClick} />
+      </Actions>
       <CollectionList
         columns={columns}
         items={[{ title: "test", duration: 3000 }]}
@@ -41,6 +52,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   color: #fff;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 24px;
 `;
 
 const DurationContainer = styled.div`

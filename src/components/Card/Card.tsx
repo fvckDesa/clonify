@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PlayBtn from "@components/PlayBtn";
 
 export interface CardProps {
   name: string;
@@ -8,7 +9,10 @@ export interface CardProps {
 function Card({ name, description }: CardProps) {
   return (
     <Layout>
-      <Img />
+      <Container>
+        <Img />
+        <AnimatedPlayBtn isPlaying={false} />
+      </Container>
       <Name>{name}</Name>
       <Description>{description}</Description>
     </Layout>
@@ -32,12 +36,32 @@ const Layout = styled.div`
   }
 `;
 
-const Img = styled.img`
+const Container = styled.span`
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
+  overflow: hidden;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
+`;
+
+const AnimatedPlayBtn = styled(PlayBtn)`
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  ${Layout}:hover & {
+    bottom: 8px;
+    opacity: 1;
+  }
 `;
 
 const Name = styled.span`

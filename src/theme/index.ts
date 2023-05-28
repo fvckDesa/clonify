@@ -9,6 +9,10 @@ declare module "styled-components" {
       secondaryBtn: string;
       accent: string;
     };
+    playBtn: {
+      sm: string;
+      lg: string;
+    };
   }
 }
 
@@ -19,5 +23,9 @@ export const theme: DefaultTheme = {
     primaryBtn: "#f1be70",
     secondaryBtn: "#e7ceb0",
     accent: "#e07534",
+  },
+  playBtn: {
+    sm: "48px",
+    lg: "56px",
   },
 };

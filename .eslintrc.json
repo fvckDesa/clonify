@@ -11,7 +11,16 @@
   "plugins": ["react-refresh"],
   "rules": {
     "react-refresh/only-export-components": "warn",
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "ignoredNodes": [
+          "TaggedTemplateExpression > TemplateLiteral > ArrowFunctionExpression"
+        ]
+      }
+    ],
     "quotes": ["error", "double"],
     "semi": ["error", "always"]
   }
