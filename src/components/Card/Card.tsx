@@ -54,10 +54,10 @@ const Img = styled.img`
 const AnimatedPlayBtn = styled(PlayBtn)`
   position: absolute;
   right: 8px;
-  bottom: 0;
+  bottom: ${({ isPlaying }) => `${isPlaying ? 8 : 0}px`};
   transition: all 0.3s ease;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
-  opacity: 0;
+  opacity: ${({ isPlaying }) => (isPlaying ? 1 : 0)};
   ${Layout}:hover & {
     bottom: 8px;
     opacity: 1;
