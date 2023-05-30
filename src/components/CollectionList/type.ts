@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { CssUnit } from "../../utils/cssUnits";
+import { CssUnit } from "@utils/cssUnits";
 
 interface Column<T> {
   header: ReactNode | (() => ReactNode);

@@ -8,6 +8,7 @@ declare module "styled-components" {
       primaryBtn: string;
       secondaryBtn: string;
       accent: string;
+      grayText: string;
     };
     playBtn: {
       sm: string;
@@ -23,6 +24,7 @@ export const theme: DefaultTheme = {
     primaryBtn: "#f1be70",
     secondaryBtn: "#e7ceb0",
     accent: "#e07534",
+    grayText: "#b3b3b3",
   },
   playBtn: {
     sm: "48px",

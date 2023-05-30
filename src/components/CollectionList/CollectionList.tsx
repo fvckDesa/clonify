@@ -2,11 +2,14 @@ import type { Columns } from "./type";
 import { ReactNode, useMemo } from "react";
 import styled from "styled-components";
 import { entries, values } from "@/utils/object";
-import { cssUnit } from "@/utils/cssUnits";
+import { cssUnit } from "@utils/cssUnits";
+import { WithId } from "@/types/utils";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export interface CollectionListProps<ColumnsDef extends object> {
   columns: Columns<ColumnsDef>;
-  items: ColumnsDef[];
+  items: WithId<ColumnsDef>[];
 }
 
 function DEFAULT_RENDER<T>(v: T): ReactNode {
@@ -36,12 +39,15 @@ function CollectionList<ColumnsDef extends object>({
         ))}
       </ListHeader>
       <List>
-        {items.map((row, idx) => (
-          <ListRow key={idx} $columns={template}>
-            <Column>{idx + 1}</Column>
+        {items.map(({ id, ...row }, idx) => (
+          <ListRow key={id} $columns={template}>
+            <Column>
+              <Index>{idx + 1}</Index>
+              <PlayPauseIcon icon={faPlay} />
+            </Column>
             {entries(columns).map(([column, { render = DEFAULT_RENDER }]) => (
               <Column key={column}>
-                {render(row[column as keyof ColumnsDef])}
+                {render((row as ColumnsDef)[column as keyof ColumnsDef])}
               </Column>
             ))}
           </ListRow>
@@ -58,20 +64,13 @@ const Row = styled.div<{ $columns: string }>`
   width: 100%;
 `;
 
-const Column = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
-
 const ListHeader = styled(Row)`
   height: 36px;
   padding: 0 32px;
   border-bottom: solid 1px hsla(0, 0%, 100%, 0.1);
   font-size: 0.875rem;
   font-weight: 600;
-  color: #b3b3b3;
+  color: ${({ theme }) => theme.colors.grayText};
   background-color: ${({ theme }) => theme.colors.secondary};
 `;
 
@@ -90,6 +89,35 @@ const ListRow = styled(Row)`
   cursor: pointer;
   &:hover {
     background-color: hsla(0, 0%, 100%, 0.1);
+  }
+`;
+
+const Column = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Index = styled.span`
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.grayText};
+  opacity: 1;
+  ${ListRow}:hover & {
+    opacity: 0;
+  }
+`;
+
+const PlayPauseIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  opacity: 0;
+  z-index: 1;
+  ${ListRow}:hover & {
+    opacity: 1;
   }
 `;
 
