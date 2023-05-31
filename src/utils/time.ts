@@ -4,14 +4,22 @@ export interface Time {
   hours: number;
 }
 
+const SEC_IN_HOUR = 3600;
+const SEC_IN_MIN = 60;
+
 export function time(timeInSec: number): Time {
   if (timeInSec < 0) {
     throw new Error("Time can't be negative");
   }
+
+  const hours = Math.floor(timeInSec / SEC_IN_HOUR);
+  const minutes = Math.floor((timeInSec - hours * SEC_IN_HOUR) / SEC_IN_MIN);
+  const seconds = timeInSec % SEC_IN_MIN;
+
   return {
-    hours: Math.floor(timeInSec / 3600),
-    minutes: Math.floor(timeInSec / 60),
-    seconds: timeInSec % 60,
+    hours,
+    minutes,
+    seconds,
   };
 }
 
