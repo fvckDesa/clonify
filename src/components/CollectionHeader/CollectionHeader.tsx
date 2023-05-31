@@ -1,5 +1,7 @@
 import type { CollectionType } from "@/types/collection";
 import styled from "styled-components";
+import { time, format } from "@utils/time";
+import { useMemo } from "react";
 
 export interface CollectionHeaderProps {
   title: string;
@@ -18,6 +20,23 @@ function CollectionHeader({
   tracksNum,
   duration,
 }: CollectionHeaderProps) {
+  const durationStr = useMemo(() => {
+    const timeObj = time(duration);
+    const timeParts: string[] = [];
+
+    if (timeObj.hours > 0) {
+      timeParts.push("{h} hr");
+    }
+    if (timeObj.minutes > 0) {
+      timeParts.push("{m} min");
+    }
+    if (timeObj.seconds > 0 && timeObj.hours === 0) {
+      timeParts.push("{s} sec");
+    }
+
+    return format(timeParts.join(" "), timeObj);
+  }, [duration]);
+
   return (
     <Header>
       <Cover src={cover} />
@@ -29,7 +48,7 @@ function CollectionHeader({
           <Dot />
           <span>{tracksNum} tracks</span>
           {","}
-          <span className="duration">{duration}</span>
+          <span className="duration">{durationStr}</span>
         </Info>
       </TextContainer>
     </Header>
@@ -74,7 +93,7 @@ const Info = styled.div`
   font-size: 0.875rem;
   font-weight: 700;
   & > .duration {
-    color: #ffffffba;
+    color: ${({ theme }) => theme.colors.grayText};
   }
 `;
 

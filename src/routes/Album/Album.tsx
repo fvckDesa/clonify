@@ -69,7 +69,7 @@ function Album() {
         author="user"
         cover=""
         tracksNum={5}
-        duration={10}
+        duration={38000}
       />
       <Actions>
         <PlayBtn isPlaying={isPlaying} size="lg" onClick={handlerClick} />
