@@ -1,61 +1,15 @@
 import styled from "styled-components";
 import Section from "@components/Section";
 import CollectionHeader from "@components/CollectionHeader";
-import CollectionList, { Columns } from "@components/CollectionList";
+import CollectionList from "@components/CollectionList";
 import PlayBtn from "@components/PlayBtn/PlayBtn";
 import { useState } from "react";
-import { time, format } from "@utils/time";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
-
-const columns: Columns<{
-  title: { name: string; authors: string[] };
-  duration: number;
-}> = {
-  title: {
-    header: "title",
-    width: "4fr",
-    render: ({ name, authors }) => (
-      <TitleContainer>
-        <span className="track-name">{name}</span>
-        <Authors>
-          {authors.map((author) => (
-            <span key={author}>{author}</span>
-          ))}
-        </Authors>
-      </TitleContainer>
-    ),
-  },
-  duration: {
-    header: () => (
-      <DurationContainer>
-        <FontAwesomeIcon icon={faClock} size="lg" />
-      </DurationContainer>
-    ),
-    width: { min: 120, max: "1fr" },
-    render: (value) => (
-      <DurationContainer>{format("{m}:{2s}", time(value))}</DurationContainer>
-    ),
-  },
-};
-
-const TRACKS: {
-  id: string;
-  title: { name: string; authors: string[] };
-  duration: number;
-}[] = [
-  {
-    id: "a1",
-    title: { name: "test", authors: ["foo", "bar"] },
-    duration: 3000,
-  },
-  { id: "a2", title: { name: "test2", authors: ["foo"] }, duration: 3002 },
-  { id: "b1", title: { name: "test3", authors: ["bar"] }, duration: 3033 },
-  { id: "b2", title: { name: "test4", authors: [] }, duration: 124 },
-];
+import { useAlbum } from "./useAlbum";
+import { columns } from "./columns";
 
 function Album() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { album, tracks, duration } = useAlbum();
 
   function handlerClick() {
     setIsPlaying((prev) => !prev);
@@ -64,17 +18,17 @@ function Album() {
   return (
     <Wrapper>
       <CollectionHeader
-        title="Album"
-        type="album"
-        author="user"
-        cover=""
-        tracksNum={5}
-        duration={38000}
+        title={album.name}
+        type={album.album_type}
+        author={album.artists[0].name}
+        cover={album.images[0].url}
+        tracksNum={album.total_tracks}
+        duration={duration}
       />
       <Actions>
         <PlayBtn isPlaying={isPlaying} size="lg" onClick={handlerClick} />
       </Actions>
-      <CollectionList columns={columns} items={TRACKS} />
+      <CollectionList columns={columns} items={tracks} />
       <ArtistSection as={Section} title="other of Artist" inline />
     </Wrapper>
   );
@@ -93,33 +47,6 @@ const Actions = styled.div`
   gap: 15px;
   width: 100%;
   padding: 24px;
-`;
-
-const DurationContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding-right: 16px;
-  color: ${({ theme }) => theme.colors.grayText};
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  font-weight: 500;
-  & .track-name {
-    font-size: 16px;
-  }
-`;
-
-const Authors = styled.div`
-  display: flex;
-  gap: 5px;
-  color: ${({ theme }) => theme.colors.grayText};
-  & > span:not(:last-child)::after {
-    content: ",";
-  }
 `;
 
 const ArtistSection = styled.div`

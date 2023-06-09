@@ -1,11 +1,10 @@
-import type { CollectionType } from "@/types/collection";
 import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { useMemo } from "react";
 
 export interface CollectionHeaderProps {
   title: string;
-  type: CollectionType;
+  type: string;
   author: string;
   cover: string;
   tracksNum: number;
