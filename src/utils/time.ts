@@ -6,11 +6,14 @@ export interface Time {
 
 const SEC_IN_HOUR = 3600;
 const SEC_IN_MIN = 60;
+const MS_IN_SEC = 1000;
 
-export function time(timeInSec: number): Time {
-  if (timeInSec < 0) {
+export function time(timeInMs: number): Time {
+  if (timeInMs < 0) {
     throw new Error("Time can't be negative");
   }
+
+  const timeInSec = Math.round(timeInMs / MS_IN_SEC);
 
   const hours = Math.floor(timeInSec / SEC_IN_HOUR);
   const minutes = Math.floor((timeInSec - hours * SEC_IN_HOUR) / SEC_IN_MIN);
