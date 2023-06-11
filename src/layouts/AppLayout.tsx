@@ -1,10 +1,13 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { useScrollRestoration } from "@hooks/useScrollRestoration";
 
 function AppLayout() {
+  const pageRef = useScrollRestoration();
+
   return (
     <Layout>
-      <MainContainer>
+      <MainContainer ref={pageRef}>
         <Outlet />
       </MainContainer>
     </Layout>
