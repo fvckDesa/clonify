@@ -20,11 +20,7 @@ export const columns: Columns<TrackRow> = {
     render: ({ name, authors }) => (
       <TitleContainer>
         <div className="track-name">{name}</div>
-        <Authors>
-          {authors.map((author) => (
-            <span key={author}>{author}</span>
-          ))}
-        </Authors>
+        <Authors>{authors.join(", ")}</Authors>
       </TitleContainer>
     ),
   },

@@ -4,12 +4,12 @@ import CollectionHeader from "@components/CollectionHeader";
 import CollectionList from "@components/CollectionList";
 import PlayBtn from "@components/PlayBtn/PlayBtn";
 import { useState } from "react";
-import { useAlbum } from "./useAlbum";
+import { useAlbumData } from "./useAlbumData";
 import { columns } from "./columns";
 
 function Album() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const { album, tracks, duration } = useAlbum();
+  const { album, tracks, duration, otherAlbums } = useAlbumData();
 
   function handlerClick() {
     setIsPlaying((prev) => !prev);
@@ -29,7 +29,7 @@ function Album() {
         <PlayBtn isPlaying={isPlaying} size="lg" onClick={handlerClick} />
       </Actions>
       <CollectionList columns={columns} items={tracks} />
-      <ArtistSection as={Section} title="other of Artist" inline />
+      <ArtistSection title="other of Artist" items={otherAlbums} inline />
     </Wrapper>
   );
 }
@@ -49,7 +49,7 @@ const Actions = styled.div`
   padding: 24px;
 `;
 
-const ArtistSection = styled.div`
+const ArtistSection = styled(Section)`
   margin-top: 48px;
 `;
 

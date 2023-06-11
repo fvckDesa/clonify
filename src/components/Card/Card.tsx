@@ -1,38 +1,48 @@
 import styled from "styled-components";
 import PlayBtn from "@components/PlayBtn";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface CardProps {
   name: string;
   description: string;
+  cover: string;
+  url: string;
 }
 
-function Card({ name, description }: CardProps) {
+function Card({ name, description, cover, url }: CardProps) {
+  const navigate = useNavigate();
+
+  function handlerClick() {
+    navigate(url);
+  }
+
   return (
-    <Layout>
+    <Layout $bgColor="#2b2729" onClick={handlerClick}>
       <Container>
-        <Img />
+        <Img src={cover} alt={`${name} cover`} />
         <AnimatedPlayBtn isPlaying={false} />
       </Container>
-      <Name>{name}</Name>
+      <Name to={url} title={name}>
+        {name}
+      </Name>
       <Description>{description}</Description>
     </Layout>
   );
 }
 
-const bgColor = "#2b2729";
-
-const Layout = styled.div`
+const Layout = styled.div<{ $bgColor: string }>`
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 16px;
   border-radius: 6px;
-  background-color: ${bgColor + "cc"};
+  background-color: ${({ $bgColor }) => $bgColor + "cc"};
+  text-decoration: none;
   transition: background-color 0.3s ease;
   overflow: hidden;
   cursor: pointer;
   &:hover {
-    background-color: ${bgColor};
+    background-color: ${({ $bgColor }) => $bgColor};
   }
 `;
 
@@ -64,10 +74,11 @@ const AnimatedPlayBtn = styled(PlayBtn)`
   }
 `;
 
-const Name = styled.span`
+const Name = styled(Link)`
   font-size: 1rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -76,7 +87,7 @@ const Name = styled.span`
 const Description = styled.span`
   font-size: 0.875rem;
   font-weight: 400;
-  color: ${({ theme }) => `${theme.colors.primary}dd`};
+  color: ${({ theme }) => theme.colors.grayText};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

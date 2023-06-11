@@ -36,11 +36,16 @@ function CollectionHeader({
     return format(timeParts.join(" "), timeObj);
   }, [duration]);
 
+  const _type = useMemo(
+    () => (type === "single" && tracksNum > 1 ? "EP" : type),
+    [type, tracksNum]
+  );
+
   return (
     <Header>
       <Cover src={cover} />
       <TextContainer>
-        <h3 className="type">{type}</h3>
+        <h3 className="type">{_type}</h3>
         <h1 className="title">{title}</h1>
         <Info>
           <span>{author}</span>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import { MouseEvent } from "react";
 
 type BtnSize = "sm" | "lg";
 
@@ -17,8 +18,15 @@ function PlayBtn({
   className = "",
   onClick,
 }: PlayBtnProps) {
+  function handlerClick(e: MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    onClick?.();
+  }
+
   return (
-    <Button className={className} $size={size} onClick={onClick}>
+    <Button className={className} $size={size} onClick={handlerClick}>
       <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
     </Button>
   );

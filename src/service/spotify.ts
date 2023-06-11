@@ -1,3 +1,5 @@
+import { urlSearchParams } from "@utils/url";
+
 const BASE_API_URL = "https://api.spotify.com/v1";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
 
@@ -38,12 +40,12 @@ class SpotifyApi {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({
+      body: urlSearchParams`${{
         client_id: import.meta.env.VITE_SPOTIFY_ID,
         client_secret: import.meta.env.VITE_SPOTIFY_SECRET,
         grant_type: "refresh_token",
         refresh_token: this.token.refresh_token,
-      }),
+      }}`,
     });
 
     if (!res.ok) {
@@ -96,13 +98,13 @@ class SpotifyApi {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({
+      body: urlSearchParams`${{
         client_id: import.meta.env.VITE_SPOTIFY_ID,
         client_secret: import.meta.env.VITE_SPOTIFY_SECRET,
         grant_type: "authorization_code",
         code,
         redirect_uri: "http://localhost:5173/login",
-      }),
+      }}`,
     });
 
     if (!res.ok) {
@@ -114,12 +116,12 @@ class SpotifyApi {
   }
 
   public get authUrl() {
-    return `https://accounts.spotify.com/authorize?${new URLSearchParams({
+    return urlSearchParams`https://accounts.spotify.com/authorize?${{
       response_type: "code",
       client_id: import.meta.env.VITE_SPOTIFY_ID,
       scope: ["user-read-private", "user-read-email"].join(" "),
       redirect_uri: "http://localhost:5173/login",
-    }).toString()}`;
+    }}`;
   }
 
   public get hasToken(): boolean {

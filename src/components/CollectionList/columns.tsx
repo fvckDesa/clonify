@@ -24,10 +24,5 @@ export const TitleContainer = styled.div`
 `;
 
 export const Authors = styled.div`
-  display: flex;
-  gap: 5px;
   color: ${({ theme }) => theme.colors.grayText};
-  & > span:not(:last-child)::after {
-    content: ",";
-  }
 `;

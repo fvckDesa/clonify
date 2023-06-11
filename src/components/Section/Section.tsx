@@ -1,20 +1,28 @@
 import styled from "styled-components";
 import { useColumns } from "./useColumns";
-import Card from "@components/Card";
+import Card, { CardProps } from "@components/Card";
+import { WithId } from "@/types/utils";
 
 export interface SectionProps {
   title: string;
+  items: WithId<CardProps>[];
   className?: string;
   inline?: boolean;
 }
 
-const MIN_CARD_WIDTH = 157;
+const MIN_CARD_WIDTH = 155;
+//const MAX_CARD_WIDTH = 245;
 
 // TODO fix section inline render logic
 // add -> max-width * n < width
 // remove -> min-width * n > width
 
-function Section({ title, className = "", inline = false }: SectionProps) {
+function Section({
+  title,
+  items,
+  className = "",
+  inline = false,
+}: SectionProps) {
   const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
 
   return (
@@ -24,11 +32,17 @@ function Section({ title, className = "", inline = false }: SectionProps) {
         {inline ? <h3>show all</h3> : null}
       </Header>
       <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
-        {Array.from({ length: inline ? numColumns : numColumns + 4 }).map(
-          (_, idx) => (
-            <Card key={idx} name="name" description="description" />
-          )
-        )}
+        {items
+          .slice(0, numColumns)
+          .map(({ id, name, description, cover, url }) => (
+            <Card
+              key={id}
+              name={name}
+              description={description}
+              cover={cover}
+              url={url}
+            />
+          ))}
       </Container>
     </Layout>
   );
@@ -61,11 +75,9 @@ const Header = styled.header`
   }
 `;
 
-interface ContainerProps {
+const Container = styled.div<{
   $numColumns: number;
-}
-
-const Container = styled.div<ContainerProps>`
+}>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.$numColumns}, 1fr);
   gap: 15px;

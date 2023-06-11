@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router-dom";
-import type { Album } from "./types";
 import type { TrackRow } from "./columns";
 import type { WithId } from "@/types/utils";
+import type { AlbumData } from "./loader";
 
-export function useAlbum() {
-  const album = useLoaderData() as Album;
-
-  console.log(album);
+export function useAlbumData() {
+  const { album, otherAlbums } = useLoaderData() as AlbumData;
 
   const tracks = useMemo<WithId<TrackRow>[]>(
     () =>
@@ -33,9 +31,24 @@ export function useAlbum() {
     [album]
   );
 
+  const formattedOtherAlbums = useMemo(
+    () =>
+      otherAlbums
+        .filter(({ id }) => id !== album.id)
+        .map(({ id, name, release_date, images }) => ({
+          id,
+          name,
+          description: release_date.getFullYear(),
+          cover: images[0].url,
+          url: `/album/${id}`,
+        })),
+    [otherAlbums, album]
+  );
+
   return {
     album,
     tracks,
     duration,
+    otherAlbums: formattedOtherAlbums,
   };
 }
