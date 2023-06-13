@@ -38,7 +38,7 @@ export function useAlbumData() {
         .map(({ id, name, release_date, images }) => ({
           id,
           name,
-          description: release_date.getFullYear(),
+          description: String(release_date.getFullYear()),
           cover: images[0].url,
           url: `/album/${id}`,
         })),

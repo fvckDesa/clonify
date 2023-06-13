@@ -1,5 +1,3 @@
-export type AlbumType = "album" | "single" | "compilation";
-
 export interface Artist {
   type: "artist";
   id: string;
@@ -20,6 +18,8 @@ export interface Track {
   name: string;
   track_number: number;
 }
+
+export type AlbumType = "album" | "single" | "compilation";
 
 export interface Album {
   type: "album";

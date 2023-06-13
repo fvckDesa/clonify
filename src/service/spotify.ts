@@ -71,7 +71,7 @@ class SpotifyApi {
     const headers = new Headers(request.headers);
     headers.set("Authorization", `${token_type} ${access_token}`);
 
-    const res = await fetch(`${BASE_API_URL}/${path}`, {
+    const res = await fetch(`${BASE_API_URL}${path}`, {
       ...request,
       headers,
     });
@@ -119,7 +119,12 @@ class SpotifyApi {
     return urlSearchParams`https://accounts.spotify.com/authorize?${{
       response_type: "code",
       client_id: import.meta.env.VITE_SPOTIFY_ID,
-      scope: ["user-read-private", "user-read-email"].join(" "),
+      scope: [
+        "user-read-private",
+        "user-read-email",
+        "user-library-read",
+        "user-read-recently-played",
+      ].join(" "),
       redirect_uri: "http://localhost:5173/login",
     }}`;
   }

@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs } from "react-router-dom";
 import { spotifyApi } from "@service/spotify";
-import { Album } from "./types";
+import { Album } from "@/types/spotify";
 import { urlSearchParams } from "@utils/url";
 import { parseJsonDate } from "@/utils/json";
 
@@ -12,12 +12,12 @@ export interface AlbumData {
 export async function loader({
   params,
 }: LoaderFunctionArgs): Promise<AlbumData> {
-  const albumRes = await spotifyApi.request(`albums/${params.albumId}`);
+  const albumRes = await spotifyApi.request(`/albums/${params.albumId}`);
 
   const album = parseJsonDate<Album>(await albumRes.text(), "release_date");
 
   const otherAlbumsRes = await spotifyApi.request(
-    urlSearchParams`artists/${album.artists[0].id}/albums?${{
+    urlSearchParams`/artists/${album.artists[0].id}/albums?${{
       include_groups: ["album", "single"].join(","),
     }}`
   );
