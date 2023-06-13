@@ -26,5 +26,4 @@ const AuthLink = styled(Link)`
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.accent};
   color: #fff;
-  text-decoration: none;
 `;

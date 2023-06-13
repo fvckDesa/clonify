@@ -37,7 +37,6 @@ const Layout = styled.div<{ $bgColor: string }>`
   padding: 16px;
   border-radius: 6px;
   background-color: ${({ $bgColor }) => $bgColor + "cc"};
-  text-decoration: none;
   transition: background-color 0.3s ease;
   overflow: hidden;
   cursor: pointer;
@@ -78,7 +77,6 @@ const Name = styled(Link)`
   font-size: 1rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
-  text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
