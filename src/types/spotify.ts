@@ -1,36 +1,45 @@
-export interface Artist {
-  type: "artist";
-  id: string;
-  name: string;
-}
-
-export interface Image {
+interface Image {
   width: number;
   height: number;
   url: string;
 }
 
+export interface Artist {
+  type: "artist";
+  id: string;
+  name: string;
+  followers: {
+    total: number;
+  };
+  images: Image[];
+  popularity: number;
+}
+
+type SimpleArtist = Omit<Artist, "followers" | "images" | "popularity">;
+
 export interface Track {
   type: "track";
-  artists: Artist[];
+  album: Omit<Album, "tracks">;
+  artists: SimpleArtist[];
   duration_ms: number;
   id: string;
   name: string;
   track_number: number;
+  popularity: number;
 }
 
-export type AlbumType = "album" | "single" | "compilation";
+type AlbumType = "album" | "single" | "compilation";
 
 export interface Album {
   type: "album";
   album_type: AlbumType;
-  artists: Artist[];
+  artists: SimpleArtist[];
   id: string;
   images: Image[];
   name: string;
   release_date: Date;
   total_tracks: number;
   tracks: {
-    items: Track[];
+    items: Omit<Track, "album" | "popularity">[];
   };
 }

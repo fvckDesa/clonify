@@ -55,6 +55,7 @@ const Container = styled.span`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: cover;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};

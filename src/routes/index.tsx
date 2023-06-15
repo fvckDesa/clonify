@@ -12,6 +12,7 @@ import { Home, loaderHome } from "./Home";
 import { Section } from "./Section";
 import { Album, loaderAlbum } from "./Album";
 import { Login, loaderLogin } from "./Login";
+import { Artist, loaderArtist } from "./Artist";
 //
 import { spotifyApi } from "@service/spotify";
 
@@ -21,6 +22,11 @@ export const router = createBrowserRouter(
       <Route index element={<Home />} loader={loaderHome} />
       <Route path="/section/:sectionId" element={<Section />} />
       <Route path="/album/:albumId" element={<Album />} loader={loaderAlbum} />
+      <Route
+        path="/artist/:artistId"
+        element={<Artist />}
+        loader={loaderArtist}
+      />
       <Route path="/login" element={<Login />} loader={loaderLogin} />
     </Route>
   )

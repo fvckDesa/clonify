@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export interface CollectionListProps<ColumnsDef extends object> {
   columns: Columns<ColumnsDef>;
   items: WithId<ColumnsDef>[];
+  omitHeader?: boolean;
 }
 
 function DEFAULT_RENDER<T>(v: T): ReactNode {
@@ -19,6 +20,7 @@ function DEFAULT_RENDER<T>(v: T): ReactNode {
 function CollectionList<ColumnsDef extends object>({
   columns,
   items,
+  omitHeader = false,
 }: CollectionListProps<ColumnsDef>) {
   const template = useMemo(
     () =>
@@ -30,14 +32,16 @@ function CollectionList<ColumnsDef extends object>({
 
   return (
     <>
-      <ListHeader $columns={template}>
-        <Column>#</Column>
-        {entries(columns).map(([column, { header }]) => (
-          <Column key={column}>
-            {typeof header === "function" ? header() : header}
-          </Column>
-        ))}
-      </ListHeader>
+      {!omitHeader && (
+        <ListHeader $columns={template}>
+          <Column>#</Column>
+          {entries(columns).map(([column, { header }]) => (
+            <Column key={column}>
+              {typeof header === "function" ? header() : header}
+            </Column>
+          ))}
+        </ListHeader>
+      )}
       <List>
         {items.map(({ id, ...row }, idx) => (
           <ListRow key={id} $columns={template}>

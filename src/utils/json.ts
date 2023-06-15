@@ -10,11 +10,9 @@ type AllDateKeys<T> = T extends object
     }[keyof T]
   : never;
 
-export function parseJsonDate<T>(json: string, key: AllDateKeys<T>): T;
-export function parseJsonDate<T>(json: string, keys: AllDateKeys<T>[]): T;
 export function parseJsonDate<T>(
   json: string,
-  keys: AllDateKeys<T> | AllDateKeys<T>[]
+  keys?: AllDateKeys<T> | AllDateKeys<T>[]
 ): T {
   const _keys = Array.isArray(keys) ? keys : [keys];
   return JSON.parse(json, (key, value) =>
