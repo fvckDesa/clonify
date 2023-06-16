@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { useMemo } from "react";
+import Authors, { Separator } from "@components/Authors";
+import { SimpleArtist } from "@/types/spotify";
 
 export interface CollectionHeaderProps {
   title: string;
   type: string;
-  author: string;
+  authors: SimpleArtist[];
   cover: string;
   tracksNum: number;
   duration: number;
@@ -14,7 +16,7 @@ export interface CollectionHeaderProps {
 function CollectionHeader({
   title,
   type,
-  author,
+  authors,
   cover,
   tracksNum,
   duration,
@@ -48,8 +50,8 @@ function CollectionHeader({
         <h3 className="type">{_type}</h3>
         <h1 className="title">{title}</h1>
         <Info>
-          <span>{author}</span>
-          <Dot />
+          <Authors authors={authors} separator={{ content: "•", space: 5 }} />
+          <Separator $content="•" $space={0} />
           <span>{tracksNum} tracks</span>
           {","}
           <span className="duration">{durationStr}</span>
@@ -98,12 +100,6 @@ const Info = styled.div`
   font-weight: 700;
   & > .duration {
     color: ${({ theme }) => theme.colors.grayText};
-  }
-`;
-
-const Dot = styled.div`
-  &::before {
-    content: "•";
   }
 `;
 

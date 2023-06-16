@@ -15,7 +15,7 @@ export interface Artist {
   popularity: number;
 }
 
-type SimpleArtist = Omit<Artist, "followers" | "images" | "popularity">;
+export type SimpleArtist = Omit<Artist, "followers" | "images" | "popularity">;
 
 export interface Track {
   type: "track";

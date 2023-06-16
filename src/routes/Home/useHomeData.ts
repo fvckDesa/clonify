@@ -39,7 +39,7 @@ function formatAlbum({ id, name, artists, images }: Album) {
   return {
     id,
     name,
-    description: artists.map(({ name }) => name).join(", "),
+    description: artists,
     cover: images[0].url,
     url: `/album/${id}`,
   };

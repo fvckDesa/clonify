@@ -32,17 +32,9 @@ function Section({
         {inline ? <h3>show all</h3> : null}
       </Header>
       <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
-        {items
-          .slice(0, numColumns)
-          .map(({ id, name, description, cover, url }) => (
-            <Card
-              key={id}
-              name={name}
-              description={description}
-              cover={cover}
-              url={url}
-            />
-          ))}
+        {items.slice(0, numColumns).map(({ id, ...cardProps }) => (
+          <Card key={id} {...cardProps} />
+        ))}
       </Container>
     </Layout>
   );

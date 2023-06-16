@@ -1,15 +1,17 @@
+import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import {
   Columns,
   TitleContainer,
-  Authors,
   DurationContainer,
 } from "@components/CollectionList";
+import Authors from "@components/Authors";
+import { SimpleArtist } from "@/types/spotify";
 
 export interface TrackRow {
-  title: { name: string; authors: string[] };
+  title: { name: string; authors: SimpleArtist[] };
   duration: number;
 }
 
@@ -20,7 +22,7 @@ export const columns: Columns<TrackRow> = {
     render: ({ name, authors }) => (
       <TitleContainer>
         <div className="track-name">{name}</div>
-        <Authors>{authors.join(", ")}</Authors>
+        <TitleAuthors authors={authors} separator="," />
       </TitleContainer>
     ),
   },
@@ -36,3 +38,8 @@ export const columns: Columns<TrackRow> = {
     ),
   },
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+const TitleAuthors = styled(Authors)`
+  color: ${({ theme }) => theme.colors.grayText};
+`;

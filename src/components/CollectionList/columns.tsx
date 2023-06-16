@@ -22,7 +22,3 @@ export const TitleContainer = styled.div`
     text-overflow: ellipsis;
   }
 `;
-
-export const Authors = styled.div`
-  color: ${({ theme }) => theme.colors.grayText};
-`;

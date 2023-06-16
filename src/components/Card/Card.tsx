@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import PlayBtn from "@components/PlayBtn";
+import Authors from "@components/Authors";
 import { Link, useNavigate } from "react-router-dom";
+import type { SimpleArtist } from "@/types/spotify";
+import type { CardType } from "./types";
 
 export interface CardProps {
   name: string;
-  description: string;
+  description: string | SimpleArtist[];
   cover: string;
   url: string;
+  type?: CardType;
 }
 
-function Card({ name, description, cover, url }: CardProps) {
+function Card({ name, description, cover, url, type = "album" }: CardProps) {
   const navigate = useNavigate();
 
   function handlerClick() {
@@ -19,13 +23,17 @@ function Card({ name, description, cover, url }: CardProps) {
   return (
     <Layout $bgColor="#2b2729" onClick={handlerClick}>
       <Container>
-        <Img src={cover} alt={`${name} cover`} />
+        <Img src={cover} alt={`${name} cover`} $type={type} />
         <AnimatedPlayBtn isPlaying={false} />
       </Container>
       <Name to={url} title={name}>
         {name}
       </Name>
-      <Description>{description}</Description>
+      {typeof description === "string" ? (
+        <Description>{description}</Description>
+      ) : (
+        <Description as={Authors} authors={description} separator="," />
+      )}
     </Layout>
   );
 }
@@ -52,11 +60,11 @@ const Container = styled.span`
   overflow: hidden;
 `;
 
-const Img = styled.img`
+const Img = styled.img<{ $type: CardType }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: ${({ $type }) => ($type === "artist" ? "100%" : "6px")};
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
 `;

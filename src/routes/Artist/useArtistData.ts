@@ -52,6 +52,7 @@ export function useArtistData() {
         description: "Artist",
         cover: images[0].url,
         url: `/artist/${id}`,
+        type: "artist",
       })),
     [relatedArtists]
   );

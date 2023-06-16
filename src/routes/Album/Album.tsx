@@ -20,7 +20,7 @@ function Album() {
       <CollectionHeader
         title={album.name}
         type={album.album_type}
-        author={album.artists[0].name}
+        authors={album.artists}
         cover={album.images[0].url}
         tracksNum={album.total_tracks}
         duration={duration}
