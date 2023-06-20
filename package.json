@@ -9,6 +9,8 @@
     "cy:open": "cypress open",
     "lint": "tsc && eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "pnpm lint --fix",
+    "types:diagnostics": "tsc --extendedDiagnostics",
+    "types:trace": "tsc --generateTrace ./tracing_output",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown *",
     "prepare": "husky install",

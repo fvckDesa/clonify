@@ -17,7 +17,7 @@ function StarPopularity({ popularity, className }: StarPopularityProps) {
   return (
     <Container className={className}>
       {Array.from({ length: NUM_STARS }).map((_, idx) => (
-        <Star
+        <FontAwesomeIcon
           key={idx}
           icon={idx + 1 <= numFillStars ? faSolidStar : faRegularStar}
         />
@@ -31,8 +31,5 @@ export default StarPopularity;
 const Container = styled.div`
   display: flex;
   gap: 5px;
-`;
-
-const Star = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.accent};
 `;
