@@ -8,10 +8,10 @@ import {
   DurationContainer,
 } from "@components/CollectionList";
 import Authors from "@components/Authors";
-import { SimpleArtist } from "@/types/spotify";
+import { PartialArtist } from "@/types/spotify";
 
 export interface TrackRow {
-  title: { name: string; authors: SimpleArtist[] };
+  title: { name: string; authors: PartialArtist[] };
   duration: number;
 }
 

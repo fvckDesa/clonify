@@ -2,12 +2,12 @@ import styled from "styled-components";
 import PlayBtn from "@components/PlayBtn";
 import Authors from "@components/Authors";
 import { Link, useNavigate } from "react-router-dom";
-import type { SimpleArtist } from "@/types/spotify";
+import type { PartialArtist } from "@/types/spotify";
 import type { CardType } from "./types";
 
 export interface CardProps {
   name: string;
-  description: string | SimpleArtist[];
+  description: string | PartialArtist[];
   cover: string;
   url: string;
   type?: CardType;

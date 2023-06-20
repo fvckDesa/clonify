@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { useMemo } from "react";
 import Authors, { Separator } from "@components/Authors";
-import { SimpleArtist } from "@/types/spotify";
+import { PartialArtist } from "@/types/spotify";
 
 export interface CollectionHeaderProps {
   title: string;
   type: string;
-  authors: SimpleArtist[];
+  authors: PartialArtist[];
   cover: string;
   tracksNum: number;
   duration: number;

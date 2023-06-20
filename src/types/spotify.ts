@@ -4,10 +4,30 @@ interface Image {
   url: string;
 }
 
-export interface Artist {
-  type: "artist";
+export interface PartialArtist {
   id: string;
   name: string;
+}
+
+export interface PartialTrack {
+  artists: PartialArtist[];
+  duration_ms: number;
+  id: string;
+  name: string;
+  track_number: number;
+}
+
+export interface PartialAlbum {
+  album_type: "album" | "single" | "compilation";
+  artists: PartialArtist[];
+  id: string;
+  images: Image[];
+  name: string;
+  release_date: Date;
+  total_tracks: number;
+}
+
+export interface Artist extends PartialArtist {
   followers: {
     total: number;
   };
@@ -15,31 +35,13 @@ export interface Artist {
   popularity: number;
 }
 
-export type SimpleArtist = Omit<Artist, "followers" | "images" | "popularity">;
-
-export interface Track {
-  type: "track";
-  album: Omit<Album, "tracks">;
-  artists: SimpleArtist[];
-  duration_ms: number;
-  id: string;
-  name: string;
-  track_number: number;
+export interface Track extends PartialTrack {
+  album: PartialAlbum;
   popularity: number;
 }
 
-type AlbumType = "album" | "single" | "compilation";
-
-export interface Album {
-  type: "album";
-  album_type: AlbumType;
-  artists: SimpleArtist[];
-  id: string;
-  images: Image[];
-  name: string;
-  release_date: Date;
-  total_tracks: number;
+export interface Album extends PartialAlbum {
   tracks: {
-    items: Omit<Track, "album" | "popularity">[];
+    items: PartialTrack[];
   };
 }

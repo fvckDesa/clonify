@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getSeparatorProps } from "./utils";
 import type { SeparatorInfo } from "./types";
-import type { SimpleArtist } from "@/types/spotify";
+import type { PartialArtist } from "@/types/spotify";
 import type { ToStyledProps } from "@/types/utils";
 import { MouseEvent } from "react";
 
 export interface AuthorsProps {
-  authors: SimpleArtist[];
+  authors: PartialArtist[];
   separator: string | SeparatorInfo;
   className?: string;
 }
