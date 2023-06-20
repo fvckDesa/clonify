@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useScrollRestoration } from "@hooks/useScrollRestoration";
+import SideBar from "@components/Sidebar";
 
 function AppLayout() {
   const pageRef = useScrollRestoration();
 
   return (
     <Layout>
+      <SideBar />
       <MainContainer ref={pageRef}>
         <Outlet />
       </MainContainer>
@@ -16,7 +18,7 @@ function AppLayout() {
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto;
   gap: 8px;
   width: 100%;
