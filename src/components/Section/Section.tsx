@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useColumns } from "./useColumns";
-import Card, { CardProps } from "@components/Card";
-import { WithId } from "@/types/utils";
+import Card from "@components/Card";
+import { SectionItem } from "./types";
 
 export interface SectionProps {
   title: string;
-  items: WithId<CardProps>[];
+  items: SectionItem[];
   className?: string;
   inline?: boolean;
 }

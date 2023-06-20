@@ -1,12 +1,15 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router-dom";
 import type { ArtistData } from "./loader";
+import type { TrackRow } from "./columns";
+import type { WithId } from "@/types/utils";
+import type { SectionItem } from "@components/Section";
 
 export function useArtistData() {
   const { artist, topTracks, discography, appearsOn, relatedArtists } =
     useLoaderData() as ArtistData;
 
-  const formattedTopTracks = useMemo(
+  const formattedTopTracks = useMemo<WithId<TrackRow>[]>(
     () =>
       topTracks.map(({ id, name, popularity, duration_ms, album }) => ({
         id,
@@ -20,7 +23,7 @@ export function useArtistData() {
     [topTracks]
   );
 
-  const formattedDiscography = useMemo(
+  const formattedDiscography = useMemo<SectionItem[]>(
     () =>
       discography.map(({ id, name, release_date, images }) => ({
         id,
@@ -32,7 +35,7 @@ export function useArtistData() {
     [discography]
   );
 
-  const formattedAppearsOn = useMemo(
+  const formattedAppearsOn = useMemo<SectionItem[]>(
     () =>
       appearsOn.map(({ id, name, release_date, images }) => ({
         id,
@@ -44,7 +47,7 @@ export function useArtistData() {
     [appearsOn]
   );
 
-  const formattedRelatedArtists = useMemo(
+  const formattedRelatedArtists = useMemo<SectionItem[]>(
     () =>
       relatedArtists.map(({ id, name, images }) => ({
         id,

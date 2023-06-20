@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import type { TrackRow } from "./columns";
 import type { WithId } from "@/types/utils";
 import type { AlbumData } from "./loader";
+import type { SectionItem } from "@components/Section";
 
 export function useAlbumData() {
   const { album, otherAlbums } = useLoaderData() as AlbumData;
@@ -34,7 +35,7 @@ export function useAlbumData() {
     [album]
   );
 
-  const formattedOtherAlbums = useMemo(
+  const formattedOtherAlbums = useMemo<SectionItem[]>(
     () =>
       otherAlbums
         .filter(({ id }) => id !== album.id)

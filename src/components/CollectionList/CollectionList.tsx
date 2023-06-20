@@ -1,4 +1,4 @@
-import type { Columns } from "./type";
+import type { Columns } from "./types";
 import { ReactNode, useMemo } from "react";
 import styled from "styled-components";
 import { entries, values } from "@/utils/object";

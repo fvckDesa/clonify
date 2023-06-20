@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useLoaderData } from "react-router-dom";
 import { HomeData } from "./loader";
 import { Album } from "@/types/spotify";
+import { SectionItem } from "@components/Section";
 
 export function useHomeData() {
   const { followedAlbums, recentlyPlayed, newReleases } =
@@ -35,7 +36,7 @@ export function useHomeData() {
   };
 }
 
-function formatAlbum({ id, name, artists, images }: Album) {
+function formatAlbum({ id, name, artists, images }: Album): SectionItem {
   return {
     id,
     name,
