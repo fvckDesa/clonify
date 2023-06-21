@@ -6,6 +6,10 @@ function capitalize(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
+function joinFile(arr: (string | null)[]): string {
+  return arr.filter((el) => el != null).join("\n");
+}
+
 const errMessage = (name: string, folder: string) =>
   `Component '${capitalize(name)}' already exists in folder '${folder}'`;
 
@@ -43,43 +47,71 @@ const { componentName } = await prompts(
   { onCancel }
 );
 
-const INDEX_FILE = [
+const INDEX_FILE = joinFile([
   `export ${
     folder === "components" ? "{ default }" : `{ default as ${componentName} }`
   } from "./${componentName}";`,
   folder === "components"
     ? `export type { ${componentName}Props } from "./${componentName}";`
     : `export { loader as loader${componentName} } from "./loader";`,
-].join("\n");
+]);
 
-const INTERFACE = [`export interface ${componentName}Props {`, "", "}"].join(
-  "\n"
-);
+const INTERFACE = joinFile([
+  `export interface ${componentName}Props {`,
+  "  ",
+  "}",
+]);
+
 const FN_PROPS = `{}: ${componentName}Props`;
 
-const COMPONENT_FILE = [
-  folder === "components" ? INTERFACE : null,
+const HOOK_IMPORT = `import { use${componentName}Data } from "./use${componentName}Data";`;
+
+const HOOK_CALL = `const {} = use${componentName}Data();`;
+
+const COMPONENT_FILE = joinFile([
+  folder === "components" ? INTERFACE : HOOK_IMPORT,
   "",
   `function ${componentName}(${folder === "components" ? FN_PROPS : ""}) {`,
+  folder === "components" ? null : `  ${HOOK_CALL}`,
+  folder === "components" ? null : "",
   `  return <div>${componentName}</div>;`,
   "}",
   "",
   `export default ${componentName};`,
-].join("\n");
+]);
 
-const LOADER_FILE = [
+const LOADER_FILE = joinFile([
   'import { LoaderFunctionArgs } from "react-router-dom";',
   "",
-  "export function loader({}: LoaderFunctionArgs) {",
-  "",
+  `export interface ${componentName}Data {`,
+  "  ",
   "}",
-].join("\n");
+  "",
+  `export async function loader({}: LoaderFunctionArgs): Promise<${componentName}Data> {`,
+  "  return {};",
+  "}",
+]);
+
+const HOOK_FILE = joinFile([
+  'import { useLoaderData } from "react-router-dom";',
+  `import type { ${componentName}Data } from "./loader";`,
+  "",
+  `export function use${componentName}Data() {`,
+  `  const {} = useLoaderData() as ${componentName}Data;`,
+  "",
+  "  return {};",
+  "}",
+]);
 
 const componentPath = path.resolve("./src/", folder, componentName);
 fs.mkdirSync(componentPath);
 
 if (folder === "routes") {
   fs.writeFileSync(path.resolve(componentPath, "loader.ts"), LOADER_FILE);
+  fs.writeFileSync(
+    path.resolve(componentPath, `use${componentName}Data.ts`),
+    HOOK_FILE
+  );
 }
 
 fs.writeFileSync(path.resolve(componentPath, "index.ts"), INDEX_FILE);
