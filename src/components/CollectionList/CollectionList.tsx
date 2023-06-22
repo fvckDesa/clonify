@@ -11,6 +11,7 @@ export interface CollectionListProps<ColumnsDef extends object> {
   columns: Columns<ColumnsDef>;
   items: WithId<ColumnsDef>[];
   omitHeader?: boolean;
+  className?: string;
 }
 
 function DEFAULT_RENDER<T>(v: T): ReactNode {
@@ -21,6 +22,7 @@ function CollectionList<ColumnsDef extends object>({
   columns,
   items,
   omitHeader = false,
+  className,
 }: CollectionListProps<ColumnsDef>) {
   const template = useMemo(
     () =>
@@ -31,7 +33,7 @@ function CollectionList<ColumnsDef extends object>({
   );
 
   return (
-    <>
+    <Container className={className}>
       {!omitHeader && (
         <ListHeader $columns={template}>
           <Column>#</Column>
@@ -57,9 +59,14 @@ function CollectionList<ColumnsDef extends object>({
           </ListRow>
         ))}
       </List>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+  padding: 0 16px;
+`;
 
 const Row = styled.div<{ $columns: string }>`
   display: grid;
@@ -70,7 +77,7 @@ const Row = styled.div<{ $columns: string }>`
 
 const ListHeader = styled(Row)`
   height: 36px;
-  padding: 0 32px;
+  padding: 0 16px;
   border-bottom: solid 1px hsla(0, 0%, 100%, 0.1);
   font-size: 0.875rem;
   font-weight: 600;
@@ -82,7 +89,6 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 16px;
 `;
 
 const ListRow = styled(Row)`

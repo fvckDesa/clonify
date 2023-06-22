@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useScrollRestoration } from "@hooks/useScrollRestoration";
 import SideBar from "@components/Sidebar";
+import { ScrollProvider } from "@/context/scroll";
 
 function AppLayout() {
   const pageRef = useScrollRestoration();
@@ -10,7 +11,9 @@ function AppLayout() {
     <Layout>
       <SideBar />
       <MainContainer ref={pageRef}>
-        <Outlet />
+        <ScrollProvider element={pageRef}>
+          <Outlet />
+        </ScrollProvider>
       </MainContainer>
     </Layout>
   );
@@ -28,7 +31,6 @@ const Layout = styled.div`
 `;
 
 const MainContainer = styled.main`
-  padding: 0 24px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.secondary};
   overflow-y: auto;
