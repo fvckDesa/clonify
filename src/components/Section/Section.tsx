@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { useColumns } from "./useColumns";
 import Card from "@components/Card";
 import { SectionItem } from "./types";
+import { Link } from "react-router-dom";
 
 export interface SectionProps {
   title: string;
   items: SectionItem[];
+  redirect?: { text: string; url: string };
   className?: string;
   inline?: boolean;
 }
@@ -20,6 +22,7 @@ const MIN_CARD_WIDTH = 155;
 function Section({
   title,
   items,
+  redirect = { text: "show all", url: "/" },
   className = "",
   inline = false,
 }: SectionProps) {
@@ -29,7 +32,11 @@ function Section({
     <Layout className={className}>
       <Header>
         <h2>{title}</h2>
-        {inline ? <h3>show all</h3> : null}
+        {inline ? (
+          <h3>
+            <Link to={redirect.url}>{redirect.text}</Link>
+          </h3>
+        ) : null}
       </Header>
       <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
         {items.slice(0, numColumns).map(({ id, ...cardProps }) => (
@@ -64,6 +71,10 @@ const Header = styled.header`
     font-size: 0.875rem;
     font-weight: 700;
     color: ${({ theme }) => `${theme.colors.primary}dd`};
+    text-transform: capitalize;
+  }
+  & > h3 > a:hover {
+    text-decoration: underline;
   }
 `;
 

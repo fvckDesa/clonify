@@ -6,13 +6,14 @@ import {
   redirect,
 } from "react-router-dom";
 // layouts
-import AppLayout from "../layouts/AppLayout";
+import AppLayout from "@/layouts/AppLayout";
 // pages
 import { Home, loaderHome } from "./Home";
 import { Section } from "./Section";
 import { Album, loaderAlbum } from "./Album";
 import { Login, loaderLogin } from "./Login";
 import { Artist, loaderArtist } from "./Artist";
+import { Discography, loaderDiscography } from "./Discography";
 //
 import { spotifyApi } from "@service/spotify";
 
@@ -20,13 +21,16 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />} loader={loader}>
       <Route index element={<Home />} loader={loaderHome} />
-      <Route path="/section/:sectionId" element={<Section />} />
-      <Route path="/album/:albumId" element={<Album />} loader={loaderAlbum} />
-      <Route
-        path="/artist/:artistId"
-        element={<Artist />}
-        loader={loaderArtist}
-      />
+      <Route path="section/:sectionId" element={<Section />} />
+      <Route path="album/:albumId" element={<Album />} loader={loaderAlbum} />
+      <Route path="/artist/:artistId">
+        <Route index element={<Artist />} loader={loaderArtist} />
+        <Route
+          path="discography"
+          element={<Discography />}
+          loader={loaderDiscography}
+        />
+      </Route>
       <Route path="/login" element={<Login />} loader={loaderLogin} />
     </Route>
   )
