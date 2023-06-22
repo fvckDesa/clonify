@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -6,8 +5,9 @@ import {
   Columns,
   TitleContainer,
   DurationContainer,
+  AuthorsList,
+  Author,
 } from "@components/CollectionList";
-import Authors from "@components/Authors";
 import { PartialArtist } from "@/types/spotify";
 
 export interface TrackRow {
@@ -22,7 +22,18 @@ export const columns: Columns<TrackRow> = {
     render: ({ name, authors }) => (
       <TitleContainer>
         <div className="track-name">{name}</div>
-        <TitleAuthors authors={authors} separator="," />
+        <AuthorsList separator=",">
+          {authors.map(({ id, name }) => (
+            <Author
+              key={id}
+              to={`/artist/${id}`}
+              title={name}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {name}
+            </Author>
+          ))}
+        </AuthorsList>
       </TitleContainer>
     ),
   },
@@ -38,8 +49,3 @@ export const columns: Columns<TrackRow> = {
     ),
   },
 };
-
-// eslint-disable-next-line react-refresh/only-export-components
-const TitleAuthors = styled(Authors)`
-  color: ${({ theme }) => theme.colors.grayText};
-`;

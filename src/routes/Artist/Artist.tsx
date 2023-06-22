@@ -1,9 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useArtistData } from "./useArtistData";
-import PlayBtn from "@components/PlayBtn";
+import CollectionHeader from "@components/CollectionHeader";
 import CollectionList from "@components/CollectionList";
 import StarPopularity from "@components/StarPopularity";
+import Actions from "@components/Actions";
 import Section from "@components/Section";
 import { columns } from "./columns";
 
@@ -21,23 +22,14 @@ function Artist() {
 
   return (
     <>
-      <Info>
-        <img
-          className="avatar"
-          src={artist.images[0].url}
-          alt={`${artist.name} avatar`}
-        />
-        <div>
-          <h1 className="name">{artist.name}</h1>
-          <span className="followers">
-            {new Intl.NumberFormat().format(artist.followers.total)} followers
-          </span>
-          <ArtistPopularity popularity={artist.popularity} />
-        </div>
-      </Info>
-      <Actions>
-        <PlayBtn isPlaying={false} size="lg" />
-      </Actions>
+      <ArtistHeader cover={artist.images[0].url} size={220}>
+        <h1 className="name">{artist.name}</h1>
+        <span className="followers">
+          {new Intl.NumberFormat().format(artist.followers.total)} followers
+        </span>
+        <Popularity popularity={artist.popularity} />
+      </ArtistHeader>
+      <FullActions isPlaying={false} size="lg" />
       <SpacedLayout>
         <TopTracks>
           <h2>Popular</h2>
@@ -50,7 +42,12 @@ function Artist() {
             {isViewingMore ? "View less" : "View more"}
           </button>
         </TopTracks>
-        <Section title="Discography" items={discography} inline />
+        <Section
+          title="Discography"
+          redirect={{ text: "Discography", url: "discography" }}
+          items={discography}
+          inline
+        />
         <Section title="Appears on" items={appearsOn} inline />
         <Section title="Related artists" items={relatedArtists} inline />
       </SpacedLayout>
@@ -60,19 +57,10 @@ function Artist() {
 
 export default Artist;
 
-const Info = styled.header`
-  display: flex;
-  align-items: center;
-  gap: 15px;
+const ArtistHeader = styled(CollectionHeader)`
   width: 100%;
   padding: 24px;
   color: #fff;
-
-  & .avatar {
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-  }
 
   & .name {
     font-size: 6rem;
@@ -85,15 +73,12 @@ const Info = styled.header`
   }
 `;
 
-const ArtistPopularity = styled(StarPopularity)`
+const Popularity = styled(StarPopularity)`
   padding: 0 16px;
   margin-top: 5px;
 `;
 
-const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 15px;
+const FullActions = styled(Actions)`
   width: 100%;
   padding: 24px;
 `;

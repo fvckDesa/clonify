@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PlayBtn from "@components/PlayBtn";
-import Authors from "@components/Authors";
+import InlineList from "@components/InlineList";
 import { Link, useNavigate } from "react-router-dom";
 import type { PartialArtist } from "@/types/spotify";
 import type { CardType } from "./types";
@@ -32,7 +32,18 @@ function Card({ name, description, cover, url, type = "album" }: CardProps) {
       {typeof description === "string" ? (
         <Description>{description}</Description>
       ) : (
-        <Description as={Authors} authors={description} separator="," />
+        <Description as={InlineList} separator=",">
+          {description.map(({ id, name }) => (
+            <Author
+              key={id}
+              to={`/artist/${id}`}
+              title={name}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {name}
+            </Author>
+          ))}
+        </Description>
       )}
     </Layout>
   );
@@ -98,6 +109,14 @@ const Description = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+`;
+
+const Author = styled(Link)`
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default Card;

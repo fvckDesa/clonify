@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import InlineList from "../InlineList/InlineList";
 
 export const DurationContainer = styled.div`
   display: flex;
@@ -20,5 +22,17 @@ export const TitleContainer = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+`;
+
+export const AuthorsList = styled(InlineList)`
+  color: ${({ theme }) => theme.colors.grayText};
+`;
+
+export const Author = styled(Link)`
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
