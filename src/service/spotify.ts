@@ -1,7 +1,9 @@
 import { urlSearchParams } from "@utils/url";
+import { CacheItem } from "./cache";
 
 const BASE_API_URL = "https://api.spotify.com/v1";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
+const CACHE_OFFSET_TIME = 3600 * 1000 * 24; // 1 day
 
 interface AccessTokenInfo {
   access_token: string;
@@ -60,10 +62,22 @@ class SpotifyApi {
 
   public async request(
     path: string,
-    request: RequestInit = {}
+    request: RequestInit = {},
+    cacheDuration = CACHE_OFFSET_TIME
   ): Promise<Response> {
     if (!this.token) {
       throw new Error("Set access token before make a request");
+    }
+
+    const cacheItem = new CacheItem(path, cacheDuration);
+
+    if (!cacheItem.isExpired()) {
+      return new Response(cacheItem.get() as string, {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
 
     const { token_type, access_token } = this.token;
@@ -88,6 +102,8 @@ class SpotifyApi {
 
       throw error;
     }
+
+    cacheItem.set(await res.clone().text());
 
     return res;
   }
