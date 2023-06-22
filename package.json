@@ -12,7 +12,7 @@
     "types:diagnostics": "tsc --extendedDiagnostics",
     "types:trace": "tsc --generateTrace ./tracing_output",
     "preview": "vite preview",
-    "format": "prettier --write --ignore-unknown *",
+    "format": "prettier --write --ignore-unknown .",
     "prepare": "husky install",
     "cre": "tsx ./scripts/create.ts"
   },
