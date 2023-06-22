@@ -12,6 +12,7 @@ declare module "styled-components" {
     };
     playBtn: {
       sm: string;
+      md: string;
       lg: string;
     };
   }
@@ -27,7 +28,8 @@ export const theme: DefaultTheme = {
     grayText: "#b3b3b3",
   },
   playBtn: {
-    sm: "48px",
+    sm: "32px",
+    md: "48px",
     lg: "56px",
   },
 };

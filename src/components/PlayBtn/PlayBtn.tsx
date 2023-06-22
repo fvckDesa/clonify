@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { MouseEvent } from "react";
 
-type BtnSize = "sm" | "lg";
+type BtnSize = "sm" | "md" | "lg";
 
 export interface PlayBtnProps {
   isPlaying: boolean;
@@ -14,7 +14,7 @@ export interface PlayBtnProps {
 
 function PlayBtn({
   isPlaying,
-  size = "sm",
+  size = "md",
   className = "",
   onClick,
 }: PlayBtnProps) {
