@@ -44,7 +44,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-top: 64px;
+  padding: 64px 24px 32px 24px;
   color: #fff;
 `;
 
