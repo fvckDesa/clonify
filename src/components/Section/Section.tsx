@@ -28,13 +28,21 @@ function Section({
 }: SectionProps) {
   const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
 
+  const isRedirectEnable = inline && !!redirect;
+
   return (
     <Layout className={className}>
       <Header>
-        <h2>{title}</h2>
-        {inline ? (
+        <h2>
+          {isRedirectEnable ? (
+            <UnderlineLink to={redirect}>{title}</UnderlineLink>
+          ) : (
+            <span>{title}</span>
+          )}
+        </h2>
+        {isRedirectEnable ? (
           <h3>
-            <Link to={redirect}>Show All</Link>
+            <UnderlineLink to={redirect}>Show All</UnderlineLink>
           </h3>
         ) : null}
       </Header>
@@ -75,7 +83,10 @@ const Header = styled.header`
     color: ${({ theme }) => `${theme.colors.primary}dd`};
     text-transform: capitalize;
   }
-  & > h3 > a:hover {
+`;
+
+const UnderlineLink = styled(Link)`
+  &:hover {
     text-decoration: underline;
   }
 `;
