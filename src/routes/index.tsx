@@ -15,6 +15,7 @@ import { Login, loaderLogin } from "./Login";
 import { Artist, loaderArtist } from "./Artist";
 import { Discography, loaderDiscography } from "./Discography";
 import { AppearsOn, loaderAppearsOn } from "./AppearsOn";
+import { Related, loaderRelated } from "./Related";
 //
 import { spotifyApi } from "@service/spotify";
 
@@ -36,6 +37,7 @@ export const router = createBrowserRouter(
           element={<AppearsOn />}
           loader={loaderAppearsOn}
         />
+        <Route path="related" element={<Related />} loader={loaderRelated} />
       </Route>
       <Route path="/login" element={<Login />} loader={loaderLogin} />
     </Route>

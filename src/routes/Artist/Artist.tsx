@@ -54,7 +54,12 @@ function Artist() {
           items={appearsOn}
           inline
         />
-        <Section title="Related artists" items={relatedArtists} inline />
+        <Section
+          title="Fans appreciate it too"
+          redirect="related"
+          items={relatedArtists}
+          inline
+        />
       </SpacedLayout>
     </>
   );
