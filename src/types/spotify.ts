@@ -15,6 +15,7 @@ export interface PartialTrack {
   id: string;
   name: string;
   track_number: number;
+  is_local: boolean;
 }
 
 export interface PartialAlbum {
@@ -43,5 +44,29 @@ export interface Track extends PartialTrack {
 export interface Album extends PartialAlbum {
   tracks: {
     items: PartialTrack[];
+  };
+}
+
+export interface PlaylistTrack {
+  added_at: Date;
+  track: Track;
+}
+
+export interface Playlist {
+  id: string;
+  name: string;
+  images: Image[];
+  public: boolean;
+  followers: {
+    total: number;
+  };
+  owner: {
+    id: string;
+    display_name: string | null;
+  };
+  tracks: {
+    items: PlaylistTrack[];
+    total: number;
+    next: string | null;
   };
 }

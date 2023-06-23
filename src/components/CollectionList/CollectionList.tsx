@@ -108,13 +108,19 @@ const Column = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+
+  &:not(:first-of-type) {
+    overflow: hidden;
+  }
 `;
 
 const Index = styled.span`
+  position: absolute;
+  right: 0;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.grayText};
   opacity: 1;
+
   ${ListRow}:hover & {
     opacity: 0;
   }

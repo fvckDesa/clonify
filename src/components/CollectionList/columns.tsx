@@ -26,6 +26,9 @@ export const TitleContainer = styled.div`
 `;
 
 export const AuthorsList = styled(InlineList)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   color: ${({ theme }) => theme.colors.grayText};
 `;
 

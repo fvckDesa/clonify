@@ -16,6 +16,7 @@ import { Artist, loaderArtist } from "./Artist";
 import { Discography, loaderDiscography } from "./Discography";
 import { AppearsOn, loaderAppearsOn } from "./AppearsOn";
 import { Related, loaderRelated } from "./Related";
+import { Playlist, loaderPlaylist } from "./Playlist";
 //
 import { spotifyApi } from "@service/spotify";
 
@@ -39,6 +40,11 @@ export const router = createBrowserRouter(
         />
         <Route path="related" element={<Related />} loader={loaderRelated} />
       </Route>
+      <Route
+        path="/playlist/:playlistId"
+        element={<Playlist />}
+        loader={loaderPlaylist}
+      />
       <Route path="/login" element={<Login />} loader={loaderLogin} />
     </Route>
   )

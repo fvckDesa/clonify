@@ -14,25 +14,24 @@ function InlineList({ separator, className, children }: InlineListProps) {
   const { content, space } = getSeparatorProps(separator);
 
   return (
-    <Container className={className}>
+    <div className={className}>
       {Children.toArray(children).map((children, idx) => (
         <Separator key={idx} $content={content} $space={space}>
           {children}
         </Separator>
       ))}
-    </Container>
+    </div>
   );
 }
 
 export default InlineList;
 
-const Container = styled.div`
-  display: flex;
-  gap: 5px;
-`;
+const Separator = styled.span<ToStyledProps<SeparatorInfo>>`
+  &:not(:first-of-type) {
+    margin-left: 5px;
+  }
 
-const Separator = styled.div<ToStyledProps<SeparatorInfo>>`
-  &:not(:last-of-type):after {
+  &:not(:last-of-type)::after {
     margin-left: ${(props) => `${props.$space}px`};
     content: "${(props) => props.$content}";
   }
