@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export interface SectionProps {
   title: string;
   items: SectionItem[];
-  redirect?: { text: string; url: string };
+  redirect?: string;
   className?: string;
   inline?: boolean;
 }
@@ -22,7 +22,7 @@ const MIN_CARD_WIDTH = 155;
 function Section({
   title,
   items,
-  redirect = { text: "show all", url: "/" },
+  redirect = "",
   className = "",
   inline = false,
 }: SectionProps) {
@@ -34,14 +34,16 @@ function Section({
         <h2>{title}</h2>
         {inline ? (
           <h3>
-            <Link to={redirect.url}>{redirect.text}</Link>
+            <Link to={redirect}>Show All</Link>
           </h3>
         ) : null}
       </Header>
       <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
-        {items.slice(0, numColumns).map(({ id, ...cardProps }) => (
-          <Card key={id} {...cardProps} />
-        ))}
+        {items
+          .slice(0, inline ? numColumns : items.length)
+          .map(({ id, ...cardProps }) => (
+            <Card key={id} {...cardProps} />
+          ))}
       </Container>
     </Layout>
   );

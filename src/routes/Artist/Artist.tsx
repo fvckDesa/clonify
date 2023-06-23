@@ -44,11 +44,16 @@ function Artist() {
         </TopTracks>
         <Section
           title="Discography"
-          redirect={{ text: "Discography", url: "discography" }}
+          redirect="discography"
           items={discography}
           inline
         />
-        <Section title="Appears on" items={appearsOn} inline />
+        <Section
+          title="Appears on"
+          redirect="appears-on"
+          items={appearsOn}
+          inline
+        />
         <Section title="Related artists" items={relatedArtists} inline />
       </SpacedLayout>
     </>
