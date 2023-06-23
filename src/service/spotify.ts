@@ -69,9 +69,11 @@ class SpotifyApi {
       throw new Error("Set access token before make a request");
     }
 
-    const cacheItem = new CacheItem(path, cacheDuration);
+    const _path = path.replace(BASE_API_URL, "");
 
-    if (!cacheItem.isExpired()) {
+    const cacheItem = new CacheItem(_path, cacheDuration);
+
+    if (!cacheItem.isExpired) {
       return new Response(cacheItem.get() as string, {
         status: 200,
         headers: {
@@ -85,7 +87,7 @@ class SpotifyApi {
     const headers = new Headers(request.headers);
     headers.set("Authorization", `${token_type} ${access_token}`);
 
-    const res = await fetch(`${BASE_API_URL}${path}`, {
+    const res = await fetch(`${BASE_API_URL}${_path}`, {
       ...request,
       headers,
     });
@@ -97,7 +99,7 @@ class SpotifyApi {
 
       if (error.status === 401 && this.expired < Date.now()) {
         await this.refresh();
-        return this.request(path, request);
+        return this.request(_path, request);
       }
 
       throw error;
