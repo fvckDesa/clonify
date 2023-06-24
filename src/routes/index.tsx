@@ -22,7 +22,12 @@ import { spotifyApi } from "@service/spotify";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AppLayout />} loader={loader}>
+    <Route
+      path="/"
+      element={<AppLayout />}
+      loader={loader}
+      shouldRevalidate={({ nextUrl }) => shouldRedirect(nextUrl)}
+    >
       <Route index element={<Home />} loader={loaderHome} />
       <Route path="/section/:sectionId" element={<Section />} />
       <Route path="/album/:albumId" element={<Album />} loader={loaderAlbum} />
@@ -51,12 +56,16 @@ export const router = createBrowserRouter(
 );
 
 function loader({ request }: LoaderFunctionArgs): Response {
-  const { pathname } = new URL(request.url);
+  const url = new URL(request.url);
 
-  if (pathname !== "/login" && !spotifyApi.hasToken) {
-    sessionStorage.setItem("redirect-page", pathname);
+  if (shouldRedirect(url)) {
+    sessionStorage.setItem("redirect-page", url.pathname);
     return redirect("/login");
   }
 
   return new Response();
+}
+
+function shouldRedirect({ pathname }: URL): boolean {
+  return !spotifyApi.hasToken && pathname !== "/login";
 }
