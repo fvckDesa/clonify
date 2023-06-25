@@ -19,6 +19,7 @@ import { Related, loaderRelated } from "./Related";
 import { Playlist, loaderPlaylist } from "./Playlist";
 //
 import { spotifyApi } from "@service/spotify";
+import { RouterId } from "./constants";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,9 +36,14 @@ export const router = createBrowserRouter(
         <Route index element={<Artist />} loader={loaderArtist} />
         <Route
           path="discography"
-          element={<Discography />}
+          id={RouterId.discography}
           loader={loaderDiscography}
-        />
+        >
+          <Route index element={<Discography />} />
+          <Route path="all" element={<Discography filter="all" />} />
+          <Route path="album" element={<Discography filter="album" />} />
+          <Route path="single" element={<Discography filter="single" />} />
+        </Route>
         <Route
           path="appears-on"
           element={<AppearsOn />}

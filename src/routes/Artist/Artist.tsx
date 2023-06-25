@@ -7,17 +7,23 @@ import StarPopularity from "@components/StarPopularity";
 import Actions from "@components/Actions";
 import Section from "@components/Section";
 import { columns } from "./columns";
+import { filters, Filter } from "./constants";
 
 const SM_VIEW = 5;
 const LG_VIEW = 10;
 
 function Artist() {
+  const [filter, setFilter] = useState<Filter>("all");
   const { artist, topTracks, discography, appearsOn, relatedArtists } =
-    useArtistData();
+    useArtistData(filter);
   const [isViewingMore, setIsViewingMore] = useState(false);
 
   function changeView() {
     setIsViewingMore((prev) => !prev);
+  }
+
+  function handlerFilterChange(filter: Filter) {
+    setFilter(filter);
   }
 
   return (
@@ -46,6 +52,9 @@ function Artist() {
           title="Discography"
           redirect="discography"
           items={discography}
+          filters={filters}
+          activeFilter={filter}
+          onFilterChange={handlerFilterChange}
           inline
         />
         <Section
