@@ -10,7 +10,7 @@ export function usePlaylistData() {
   const tracks = useMemo<WithId<TrackRow>[]>(
     () =>
       playlist.tracks.items
-        .filter(({ track }) => !track.is_local)
+        .filter(({ track }) => track && !track.is_local)
         .map(({ added_at, track }, idx) => ({
           id: `${idx}-${track.id}`,
           title: {
@@ -27,10 +27,9 @@ export function usePlaylistData() {
 
   const duration = useMemo(
     () =>
-      playlist.tracks.items.reduce(
-        (total, { track }) => total + track.duration_ms,
-        0
-      ),
+      playlist.tracks.items
+        .filter(({ track }) => track != null)
+        .reduce((total, { track }) => total + track.duration_ms, 0),
     [playlist]
   );
 
