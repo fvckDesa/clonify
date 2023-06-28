@@ -28,6 +28,20 @@ export interface PartialAlbum {
   total_tracks: number;
 }
 
+export interface PartialPlaylist {
+  id: string;
+  name: string;
+  images: Image[];
+  public: boolean;
+  followers: {
+    total: number;
+  };
+  owner: {
+    id: string;
+    display_name: string | null;
+  };
+}
+
 export interface Artist extends PartialArtist {
   followers: {
     total: number;
@@ -52,18 +66,7 @@ export interface PlaylistTrack {
   track: Track;
 }
 
-export interface Playlist {
-  id: string;
-  name: string;
-  images: Image[];
-  public: boolean;
-  followers: {
-    total: number;
-  };
-  owner: {
-    id: string;
-    display_name: string | null;
-  };
+export interface Playlist extends PartialPlaylist {
   tracks: {
     items: PlaylistTrack[];
     total: number;
