@@ -28,7 +28,7 @@ function Home() {
                 <AlbumName to={`/album/${id}`} title={name}>
                   {name}
                 </AlbumName>
-                <HoverPlayBtn isPlaying={false} size="sm" />
+                <HoverPlayBtn isPlaying={false} />
               </div>
             </RecentlyPlayed>
           ))}
