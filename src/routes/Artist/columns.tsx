@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { time, format } from "@utils/time";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { Columns, DurationContainer } from "@components/CollectionList";
 import StarPopularity from "@components/StarPopularity";
 
@@ -32,11 +30,7 @@ export const columns: Columns<TrackRow> = {
     render: (popularity) => <StarPopularity popularity={popularity} />,
   },
   duration: {
-    header: () => (
-      <DurationContainer>
-        <FontAwesomeIcon icon={faClock} size="lg" />
-      </DurationContainer>
-    ),
+    header: "duration",
     width: { min: 120, max: "1fr" },
     render: (value) => (
       <DurationContainer>{format("{m}:{2s}", time(value))}</DurationContainer>
