@@ -1,4 +1,8 @@
-import { faHome, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faMagnifyingGlass,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { css, RuleSet } from "styled-components";
 
 export interface NavItem {
@@ -20,5 +24,11 @@ export const NAV_ITEMS: NavItem[] = [
         fill: transparent;
       }
     `,
+  },
+  {
+    name: "search",
+    url: "/search",
+    icon: faMagnifyingGlass,
+    inactiveStyle: null,
   },
 ];
