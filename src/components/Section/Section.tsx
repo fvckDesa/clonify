@@ -1,18 +1,11 @@
 import styled from "styled-components";
 import { useColumns } from "./useColumns";
-import Card from "@components/Card";
-import { SectionFilter, SectionItem } from "./types";
+import { SectionFilter } from "./types";
 import { Link } from "react-router-dom";
+import { Children, PropsWithChildren } from "react";
 
-export interface SectionProps<Filter> {
-  title: string;
-  items: SectionItem[];
-  filters?: SectionFilter<Filter>[] | readonly SectionFilter<Filter>[];
-  onFilterChange?: (filter: Filter) => void;
-  activeFilter?: Filter;
-  redirect?: string;
+export interface SectionProps {
   className?: string;
-  inline?: boolean;
 }
 
 const MIN_CARD_WIDTH = 155;
@@ -22,58 +15,8 @@ const MIN_CARD_WIDTH = 155;
 // add -> max-width * n < width
 // remove -> min-width * n > width
 
-function Section<Filter = never>({
-  title,
-  items,
-  filters,
-  onFilterChange,
-  activeFilter,
-  redirect = "",
-  className = "",
-  inline = false,
-}: SectionProps<Filter>) {
-  const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
-
-  const isRedirectEnable = inline && !!redirect;
-
-  return (
-    <Layout className={className}>
-      <Header>
-        <h2>
-          {isRedirectEnable ? (
-            <UnderlineLink to={redirect}>{title}</UnderlineLink>
-          ) : (
-            <span>{title}</span>
-          )}
-        </h2>
-        {isRedirectEnable ? (
-          <h3>
-            <UnderlineLink to={redirect}>Show All</UnderlineLink>
-          </h3>
-        ) : null}
-      </Header>
-      {filters != undefined && (
-        <Filters>
-          {filters.map(({ text, filter }) => (
-            <Label
-              key={filter as string}
-              $active={activeFilter === filter}
-              onClick={() => onFilterChange?.(filter)}
-            >
-              {text}
-            </Label>
-          ))}
-        </Filters>
-      )}
-      <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
-        {items
-          .slice(0, inline ? numColumns : items.length)
-          .map(({ id, ...cardProps }) => (
-            <Card key={id} {...cardProps} />
-          ))}
-      </Container>
-    </Layout>
-  );
+function Section({ className, children }: PropsWithChildren<SectionProps>) {
+  return <Layout className={className}>{children}</Layout>;
 }
 
 const Layout = styled.section`
@@ -83,6 +26,32 @@ const Layout = styled.section`
   width: 100%;
   height: auto;
 `;
+
+export interface SectionHeaderProps {
+  redirect?: string;
+}
+
+function SectionHeader({
+  redirect,
+  children,
+}: PropsWithChildren<SectionHeaderProps>) {
+  return (
+    <Header>
+      <h2>
+        {redirect ? (
+          <UnderlineLink to={redirect}>{children}</UnderlineLink>
+        ) : (
+          <span>{children}</span>
+        )}
+      </h2>
+      {redirect ? (
+        <h3>
+          <UnderlineLink to={redirect}>Show All</UnderlineLink>
+        </h3>
+      ) : null}
+    </Header>
+  );
+}
 
 const Header = styled.header`
   display: flex;
@@ -107,6 +76,32 @@ const UnderlineLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+
+export interface SectionFiltersProps<Filter> {
+  filters: SectionFilter<Filter>[] | readonly SectionFilter<Filter>[];
+  onFilterChange: (filter: Filter) => void;
+  activeFilter: Filter;
+}
+
+function SectionFilters<Filter>({
+  filters,
+  onFilterChange,
+  activeFilter,
+}: SectionFiltersProps<Filter>) {
+  return (
+    <Filters>
+      {filters.map(({ text, filter }) => (
+        <Label
+          key={filter as string}
+          $active={activeFilter === filter}
+          onClick={() => onFilterChange?.(filter)}
+        >
+          {text}
+        </Label>
+      ))}
+    </Filters>
+  );
+}
 
 const Filters = styled.div`
   display: flex;
@@ -134,6 +129,22 @@ const Label = styled.button<{ $active: boolean }>`
   }
 `;
 
+export interface SectionContainerProps {
+  inline?: boolean;
+}
+
+function SectionContainer({
+  inline = true,
+  children,
+}: PropsWithChildren<SectionContainerProps>) {
+  const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
+  return (
+    <Container data-cy="section-container" ref={ref} $numColumns={numColumns}>
+      {Children.toArray(children).slice(0, inline ? numColumns : undefined)}
+    </Container>
+  );
+}
+
 const Container = styled.div<{
   $numColumns: number;
 }>`
@@ -144,4 +155,8 @@ const Container = styled.div<{
   margin-bottom: 36px;
 `;
 
-export default Section;
+export default Object.assign(Section, {
+  Header: SectionHeader,
+  Filters: SectionFilters,
+  Container: SectionContainer,
+});

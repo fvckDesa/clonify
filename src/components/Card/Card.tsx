@@ -1,51 +1,37 @@
 import styled from "styled-components";
+import {
+  ImgHTMLAttributes,
+  PropsWithChildren,
+  createContext,
+  useContext,
+} from "react";
+import { Link, LinkProps, To, useNavigate } from "react-router-dom";
 import PlayBtn from "@components/PlayBtn";
-import InlineList from "@components/InlineList";
-import { Link, useNavigate } from "react-router-dom";
-import type { PartialArtist } from "@/types/spotify";
-import type { CardType } from "./types";
+import InlineList, { InlineListProps } from "@components/InlineList";
 
-export interface CardProps {
-  name: string;
-  description: string | PartialArtist[];
-  cover: string;
-  url: string;
-  type?: CardType;
+interface CardContextProps {
+  to: To;
 }
 
-function Card({ name, description, cover, url, type = "album" }: CardProps) {
+const CardContext = createContext<CardContextProps>({ to: "" });
+
+export interface CardProps {
+  to: To;
+}
+
+function Card({ to, children }: PropsWithChildren<CardProps>) {
   const navigate = useNavigate();
 
   function handlerClick() {
-    navigate(url);
+    navigate(to);
   }
 
   return (
-    <Layout $bgColor="#2b2729" onClick={handlerClick}>
-      <Container>
-        <Img src={cover} alt={`${name} cover`} $type={type} />
-        <AnimatedPlayBtn isPlaying={false} />
-      </Container>
-      <Name to={url} title={name}>
-        {name}
-      </Name>
-      {typeof description === "string" ? (
-        <Description>{description}</Description>
-      ) : (
-        <Description as={InlineList} separator=",">
-          {description.map(({ id, name }) => (
-            <Author
-              key={id}
-              to={`/artist/${id}`}
-              title={name}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {name}
-            </Author>
-          ))}
-        </Description>
-      )}
-    </Layout>
+    <CardContext.Provider value={{ to }}>
+      <Layout $bgColor="#2b2729" onClick={handlerClick}>
+        {children}
+      </Layout>
+    </CardContext.Provider>
   );
 }
 
@@ -64,6 +50,17 @@ const Layout = styled.div<{ $bgColor: string }>`
   }
 `;
 
+export type ImageProps = ImgHTMLAttributes<HTMLImageElement>;
+
+function Image(imgProps: ImageProps) {
+  return (
+    <Container>
+      <Img {...imgProps} />
+      <AnimatedPlayBtn isPlaying={false} />
+    </Container>
+  );
+}
+
 const Container = styled.span`
   position: relative;
   width: 100%;
@@ -71,11 +68,11 @@ const Container = styled.span`
   overflow: hidden;
 `;
 
-const Img = styled.img<{ $type: CardType }>`
+const Img = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 6px;
   object-fit: cover;
-  border-radius: ${({ $type }) => ($type === "artist" ? "100%" : "6px")};
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
 `;
@@ -93,7 +90,18 @@ const AnimatedPlayBtn = styled(PlayBtn)`
   }
 `;
 
-const Name = styled(Link)`
+export type NameProps = Omit<LinkProps, "to">;
+
+function Name({ children, ...linkProps }: PropsWithChildren<NameProps>) {
+  const { to } = useContext(CardContext);
+  return (
+    <NameLink to={to} {...linkProps}>
+      {children}
+    </NameLink>
+  );
+}
+
+const NameLink = styled(Link)`
   font-size: 1rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
@@ -102,7 +110,21 @@ const Name = styled(Link)`
   overflow: hidden;
 `;
 
-const Description = styled.span`
+export type DescriptionProps = Partial<InlineListProps>;
+
+function Description({
+  children,
+  separator = "",
+  className,
+}: PropsWithChildren<DescriptionProps>) {
+  return (
+    <DescriptionList className={className} separator={separator}>
+      {children}
+    </DescriptionList>
+  );
+}
+
+const DescriptionList = styled(InlineList)`
   font-size: 0.875rem;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.grayText};
@@ -111,12 +133,4 @@ const Description = styled.span`
   overflow: hidden;
 `;
 
-const Author = styled(Link)`
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-export default Card;
+export default Object.assign(Card, { Image, Name, Description });
