@@ -134,7 +134,7 @@ export interface SectionContainerProps {
 }
 
 function SectionContainer({
-  inline = true,
+  inline = false,
   children,
 }: PropsWithChildren<SectionContainerProps>) {
   const { ref, numColumns } = useColumns<HTMLDivElement>(MIN_CARD_WIDTH);
