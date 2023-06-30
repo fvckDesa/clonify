@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Section from "@components/Section";
+import Card from "@components/Card";
 import PlayBtn from "@components/PlayBtn";
 import { Link, useNavigate } from "react-router-dom";
 import { useHomeData } from "./useHomeData";
@@ -34,8 +35,50 @@ function Home() {
           ))}
         </RecentlyPlayedLayout>
       </header>
-      <Section title="New Releases" items={newReleases} inline />
-      <Section title="Followed Albums" items={followedAlbums} inline />
+      <Section>
+        <Section.Header>New Releases</Section.Header>
+        <Section.Container inline>
+          {newReleases.map(({ id, images, name, artists }) => (
+            <Card key={id} to={`/album/${id}`}>
+              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <ArtistsLinks separator=",">
+                {artists.map(({ id, name }) => (
+                  <Link
+                    key={id}
+                    to={`/artist/${id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {name}
+                  </Link>
+                ))}
+              </ArtistsLinks>
+            </Card>
+          ))}
+        </Section.Container>
+      </Section>
+      <Section>
+        <Section.Header>Followed Albums</Section.Header>
+        <Section.Container inline>
+          {followedAlbums.map(({ id, images, name, artists }) => (
+            <Card key={id} to={`/album/${id}`}>
+              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <ArtistsLinks separator=",">
+                {artists.map(({ id, name }) => (
+                  <Link
+                    key={id}
+                    to={`/artist/${id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {name}
+                  </Link>
+                ))}
+              </ArtistsLinks>
+            </Card>
+          ))}
+        </Section.Container>
+      </Section>
     </Layout>
   );
 }
@@ -103,6 +146,17 @@ const HoverPlayBtn = styled(PlayBtn)`
 
   ${RecentlyPlayed}:hover & {
     opacity: 1;
+  }
+`;
+
+const ArtistsLinks = styled(Card.Description)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: ${({ theme }) => theme.colors.grayText};
+
+  & a:hover {
+    text-decoration: underline;
   }
 `;
 

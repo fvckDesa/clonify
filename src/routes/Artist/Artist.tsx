@@ -6,6 +6,7 @@ import CollectionList from "@components/CollectionList";
 import StarPopularity from "@components/StarPopularity";
 import Actions from "@components/Actions";
 import Section from "@components/Section";
+import Card from "@components/Card";
 import { columns } from "./columns";
 import { filters, Filter } from "./constants";
 
@@ -15,7 +16,7 @@ const LG_VIEW = 10;
 function Artist() {
   const [filter, setFilter] = useState<Filter>("all");
   const { artist, topTracks, discography, appearsOn, relatedArtists } =
-    useArtistData(filter);
+    useArtistData();
   const [isViewingMore, setIsViewingMore] = useState(false);
 
   function changeView() {
@@ -48,27 +49,59 @@ function Artist() {
             {isViewingMore ? "View less" : "View more"}
           </button>
         </TopTracks>
-        <Section
-          title="Discography"
-          redirect="discography"
-          items={discography}
-          filters={filters}
-          activeFilter={filter}
-          onFilterChange={handlerFilterChange}
-          inline
-        />
-        <Section
-          title="Appears on"
-          redirect="appears-on"
-          items={appearsOn}
-          inline
-        />
-        <Section
-          title="Fans appreciate it too"
-          redirect="related"
-          items={relatedArtists}
-          inline
-        />
+        <Section>
+          <Section.Header redirect="discography">Discography</Section.Header>
+          <Section.Filters
+            filters={filters}
+            activeFilter={filter}
+            onFilterChange={handlerFilterChange}
+          />
+          <Section.Container inline>
+            {discography
+              .filter(
+                ({ album_type }) => filter === "all" || filter === album_type
+              )
+              .map(({ id, images, name, release_date, album_type }) => (
+                <Card key={id} to={`/album/${id}`}>
+                  <Card.Image src={images[0].url} alt={`${name} image`} />
+                  <Card.Name>{name}</Card.Name>
+                  <Card.Description separator={{ content: "•", space: 5 }}>
+                    <span>{release_date.getFullYear()}</span>
+                    <span>{album_type}</span>
+                  </Card.Description>
+                </Card>
+              ))}
+          </Section.Container>
+        </Section>
+        <Section>
+          <Section.Header redirect="related">
+            Fans appreciate it too
+          </Section.Header>
+          <Section.Container inline>
+            {relatedArtists.map(({ id, images, name }) => (
+              <Card key={id} to={`/artist/${id}`}>
+                <ArtistImage src={images[0].url} alt={`${name} image`} />
+                <Card.Name>{name}</Card.Name>
+                <Card.Description>Artist</Card.Description>
+              </Card>
+            ))}
+          </Section.Container>
+        </Section>
+        <Section>
+          <Section.Header redirect="appears-on">Appears on</Section.Header>
+          <Section.Container inline>
+            {appearsOn.map(({ id, images, name, release_date, album_type }) => (
+              <Card key={id} to={`/album/${id}`}>
+                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Name>{name}</Card.Name>
+                <Card.Description separator={{ content: "•", space: 5 }}>
+                  <span>{release_date.getFullYear()}</span>
+                  <span>{album_type}</span>
+                </Card.Description>
+              </Card>
+            ))}
+          </Section.Container>
+        </Section>
       </SpacedLayout>
     </>
   );
@@ -129,4 +162,8 @@ const TopTracks = styled.div`
       color: #fff;
     }
   }
+`;
+
+const ArtistImage = styled(Card.Image)`
+  border-radius: 100%;
 `;

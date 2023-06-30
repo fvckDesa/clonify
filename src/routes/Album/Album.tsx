@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Section from "@components/Section";
+import Card from "@components/Card";
 import CollectionHeader from "@components/CollectionHeader";
 import CollectionList from "@components/CollectionList";
 import Actions from "@components/Actions";
@@ -67,7 +68,18 @@ function Album() {
       </AlbumHeader>
       <FullActions isPlaying={isPlaying} size="lg" onClick={handlerClick} />
       <CollectionList columns={columns} items={tracks} />
-      <ArtistSection title="other of Artist" items={otherAlbums} inline />
+      <ArtistSection>
+        <Section.Header>Other of Artist</Section.Header>
+        <Section.Container inline>
+          {otherAlbums.map(({ id, images, name, release_date }) => (
+            <Card key={id} to={`/album/${id}`}>
+              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <Card.Description>{release_date.getFullYear()}</Card.Description>
+            </Card>
+          ))}
+        </Section.Container>
+      </ArtistSection>
     </Wrapper>
   );
 }

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useSearchData } from "./useSearchData";
-import Section from "@/components/Section";
+import Section from "@components/Section";
+import Card from "@components/Card";
 import CollectionList from "@components/CollectionList";
 import { columns } from "./columns";
 
@@ -11,9 +12,45 @@ function Search() {
     <Layout>
       <Title>Tracks</Title>
       <Tracks columns={columns} items={tracks.slice(0, 4)} omitHeader />
-      <Section title="Artists" items={artists} inline />
-      <Section title="Albums" items={albums} inline />
-      <Section title="Playlists" items={playlists} inline />
+      <Section>
+        <Section.Header>Artists</Section.Header>
+        <Section.Container inline>
+          {artists.map(({ id, images, name }) => (
+            <Card key={id} to={`/artist/${id}`}>
+              <ArtistImage src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <Card.Description>Artist</Card.Description>
+            </Card>
+          ))}
+        </Section.Container>
+      </Section>
+      <Section>
+        <Section.Header>Albums</Section.Header>
+        <Section.Container inline>
+          {albums.map(({ id, images, name, release_date, artists }) => (
+            <Card key={id} to={`/album/${id}`}>
+              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <Card.Description separator={{ content: "•", space: 5 }}>
+                <span>{release_date.getFullYear()}</span>
+                <span>{artists[0].name}</span>
+              </Card.Description>
+            </Card>
+          ))}
+        </Section.Container>
+      </Section>
+      <Section>
+        <Section.Header>Playlists</Section.Header>
+        <Section.Container inline>
+          {playlists.map(({ id, images, name, owner }) => (
+            <Card key={id} to={`/artist/${id}`}>
+              <ArtistImage src={images[0].url} alt={`${name} image`} />
+              <Card.Name>{name}</Card.Name>
+              <Card.Description>By {owner.display_name}</Card.Description>
+            </Card>
+          ))}
+        </Section.Container>
+      </Section>
     </Layout>
   );
 }
@@ -35,4 +72,8 @@ const Title = styled.h1`
 const Tracks = styled(CollectionList)`
   padding: 0 8px;
   margin-bottom: 25px;
+`;
+
+const ArtistImage = styled(Card.Image)`
+  border-radius: 100%;
 `;

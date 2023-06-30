@@ -2,16 +2,10 @@ import { useMemo } from "react";
 import { useLoaderData } from "react-router-dom";
 import { HomeData } from "./loader";
 import { Album } from "@/types/spotify";
-import { SectionItem } from "@components/Section";
 
 export function useHomeData() {
   const { followedAlbums, recentlyPlayed, newReleases } =
     useLoaderData() as HomeData;
-
-  const formattedFollowedAlbums = useMemo(
-    () => followedAlbums.map(formatAlbum),
-    [followedAlbums]
-  );
 
   const filteredRecentlyPlayed = useMemo(() => {
     const map = new Map<string, Album>();
@@ -24,24 +18,9 @@ export function useHomeData() {
     return [...map.values()];
   }, [recentlyPlayed]);
 
-  const formattedNewReleases = useMemo(
-    () => newReleases.map(formatAlbum),
-    [newReleases]
-  );
-
   return {
-    followedAlbums: formattedFollowedAlbums,
+    followedAlbums,
     recentlyPlayed: filteredRecentlyPlayed,
-    newReleases: formattedNewReleases,
-  };
-}
-
-function formatAlbum({ id, name, artists, images }: Album): SectionItem {
-  return {
-    id,
-    name,
-    description: artists,
-    cover: images[0].url,
-    url: `/album/${id}`,
+    newReleases,
   };
 }

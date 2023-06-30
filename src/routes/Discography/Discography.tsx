@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrip, faList } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Section from "@components/Section";
+import Card from "@components/Card";
 import { ViewMode } from "./types";
 
 interface DiscographyProps {
@@ -23,7 +24,7 @@ interface DiscographyProps {
 function Discography({ filter = "all" }: DiscographyProps) {
   const navigate = useNavigate();
   const { artistId } = useParams<"artistId">();
-  const { discography, discographyItems } = useDiscographyData(filter);
+  const { discography, discographyList } = useDiscographyData(filter);
   const { top } = useScroll();
   const [viewMode, setViewMode] = useState<ViewMode>("list");
 
@@ -57,7 +58,7 @@ function Discography({ filter = "all" }: DiscographyProps) {
       </Artist>
       {viewMode === "list" ? (
         <DiscographyList>
-          {discography.map(
+          {discographyList.map(
             ({
               id,
               name,
@@ -85,7 +86,22 @@ function Discography({ filter = "all" }: DiscographyProps) {
           )}
         </DiscographyList>
       ) : (
-        <DiscographySection title="" items={discographyItems} />
+        <DiscographySection>
+          <Section.Container>
+            {discography.map(
+              ({ id, images, name, release_date, album_type }) => (
+                <Card key={id} to={`/album/${id}`}>
+                  <Card.Image src={images[0].url} alt={`${name} image`} />
+                  <Card.Name>{name}</Card.Name>
+                  <Card.Description separator={{ content: "•", space: 5 }}>
+                    <span>{release_date.getFullYear()}</span>
+                    <span>{album_type}</span>
+                  </Card.Description>
+                </Card>
+              )
+            )}
+          </Section.Container>
+        </DiscographySection>
       )}
     </Container>
   );
@@ -153,7 +169,7 @@ const DiscographyList = styled.ul`
 `;
 
 const DiscographySection = styled(Section)`
-  padding: 0 24px;
+  padding: 16px 24px;
 `;
 
 const AlbumHeader = styled(CollectionHeader)`
