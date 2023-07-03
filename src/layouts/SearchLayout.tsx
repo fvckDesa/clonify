@@ -1,17 +1,23 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { MouseEvent, useDeferredValue, useEffect, useState } from "react";
+import SearchHistoryProvider from "@/context/SearchHistory";
 
 function SearchLayout() {
-  const [query, setQuery] = useState("");
+  const { query: queryParam = "" } = useParams<"query">();
+  const [query, setQuery] = useState(queryParam);
   const deferredQuery = useDeferredValue(query);
   const navigate = useNavigate();
 
   useEffect(() => {
     navigate(`/search/${encodeURIComponent(deferredQuery)}`);
   }, [navigate, deferredQuery]);
+
+  useEffect(() => {
+    setQuery(queryParam);
+  }, [queryParam]);
 
   function handlerClear(e: MouseEvent) {
     e.stopPropagation();
@@ -38,7 +44,9 @@ function SearchLayout() {
           )}
         </InputWrapper>
       </Header>
-      <Outlet />
+      <SearchHistoryProvider>
+        <Outlet />
+      </SearchHistoryProvider>
     </Layout>
   );
 }
@@ -57,7 +65,7 @@ const Header = styled.header`
   width: 100%;
   padding: 8px;
   background-color: ${({ theme }) => theme.colors.secondary};
-  z-index: 10;
+  z-index: 1000;
 `;
 
 const InputWrapper = styled.form`

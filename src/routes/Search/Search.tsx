@@ -4,9 +4,11 @@ import Section from "@components/Section";
 import Card from "@components/Card";
 import CollectionList from "@components/CollectionList";
 import { columns } from "./columns";
+import { useSearchHistory } from "@/context/SearchHistory";
 
 function Search() {
   const { artists, albums, playlists, tracks } = useSearchData();
+  const { setItem } = useSearchHistory();
 
   return (
     <Layout>
@@ -15,40 +17,57 @@ function Search() {
       <Section>
         <Section.Header>Artists</Section.Header>
         <Section.Container inline>
-          {artists.map(({ id, images, name }) => (
-            <Card key={id} to={`/artist/${id}`}>
-              <ArtistImage src={images[0].url} alt={`${name} image`} />
-              <Card.Name>{name}</Card.Name>
-              <Card.Description>Artist</Card.Description>
-            </Card>
-          ))}
+          {artists.map((artist) => {
+            const { id, images, name } = artist;
+            return (
+              <Card
+                key={id}
+                to={`/artist/${id}`}
+                onClick={() => setItem(artist)}
+              >
+                <ArtistImage src={images[0]?.url} alt={`${name} image`} />
+                <Card.Name>{name}</Card.Name>
+                <Card.Description>Artist</Card.Description>
+              </Card>
+            );
+          })}
         </Section.Container>
       </Section>
       <Section>
         <Section.Header>Albums</Section.Header>
         <Section.Container inline>
-          {albums.map(({ id, images, name, release_date, artists }) => (
-            <Card key={id} to={`/album/${id}`}>
-              <Card.Image src={images[0].url} alt={`${name} image`} />
-              <Card.Name>{name}</Card.Name>
-              <Card.Description separator={{ content: "•", space: 5 }}>
-                <span>{release_date.getFullYear()}</span>
-                <span>{artists[0].name}</span>
-              </Card.Description>
-            </Card>
-          ))}
+          {albums.map((album) => {
+            const { id, images, name, release_date, artists } = album;
+            return (
+              <Card key={id} to={`/album/${id}`} onClick={() => setItem(album)}>
+                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Name>{name}</Card.Name>
+                <Card.Description separator={{ content: "•", space: 5 }}>
+                  <span>{release_date.getFullYear()}</span>
+                  <span>{artists[0].name}</span>
+                </Card.Description>
+              </Card>
+            );
+          })}
         </Section.Container>
       </Section>
       <Section>
         <Section.Header>Playlists</Section.Header>
         <Section.Container inline>
-          {playlists.map(({ id, images, name, owner }) => (
-            <Card key={id} to={`/artist/${id}`}>
-              <ArtistImage src={images[0].url} alt={`${name} image`} />
-              <Card.Name>{name}</Card.Name>
-              <Card.Description>By {owner.display_name}</Card.Description>
-            </Card>
-          ))}
+          {playlists.map((playlist) => {
+            const { id, images, name, owner } = playlist;
+            return (
+              <Card
+                key={id}
+                to={`/artist/${id}`}
+                onClick={() => setItem(playlist)}
+              >
+                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Name>{name}</Card.Name>
+                <Card.Description>By {owner.display_name}</Card.Description>
+              </Card>
+            );
+          })}
         </Section.Container>
       </Section>
     </Layout>

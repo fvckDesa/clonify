@@ -18,6 +18,7 @@ import { AppearsOn, loaderAppearsOn } from "./AppearsOn";
 import { Related, loaderRelated } from "./Related";
 import { Playlist, loaderPlaylist } from "./Playlist";
 import { Search, loaderSearch } from "./Search";
+import { SearchHistory } from "./SearchHistory";
 //
 import { spotifyApi } from "@service/spotify";
 import { RouterId } from "./constants";
@@ -32,7 +33,7 @@ export const router = createBrowserRouter(
     >
       <Route index element={<Home />} loader={loaderHome} />
       <Route path="/search" element={<SearchLayout />}>
-        <Route index element={<div />} />
+        <Route index element={<SearchHistory />} />
         <Route path=":query" element={<Search />} loader={loaderSearch} />
       </Route>
       <Route path="/section/:sectionId" element={<Section />} />

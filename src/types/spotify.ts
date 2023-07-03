@@ -5,11 +5,13 @@ interface Image {
 }
 
 export interface PartialArtist {
+  type: "artist";
   id: string;
   name: string;
 }
 
 export interface PartialTrack {
+  type: "track";
   artists: PartialArtist[];
   duration_ms: number;
   id: string;
@@ -19,6 +21,7 @@ export interface PartialTrack {
 }
 
 export interface PartialAlbum {
+  type: "album";
   album_type: "album" | "single" | "compilation";
   artists: PartialArtist[];
   id: string;
@@ -29,6 +32,7 @@ export interface PartialAlbum {
 }
 
 export interface PartialPlaylist {
+  type: "playlist";
   id: string;
   name: string;
   images: Image[];

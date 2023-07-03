@@ -15,10 +15,7 @@ export function useAlbumData() {
           id,
           title: {
             name,
-            authors: artists.map((artist) => ({
-              id: artist.id,
-              name: artist.name,
-            })),
+            authors: artists,
           },
           duration: duration_ms,
         })),

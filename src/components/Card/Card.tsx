@@ -17,18 +17,26 @@ const CardContext = createContext<CardContextProps>({ to: "" });
 
 export interface CardProps {
   to: To;
+  className?: string;
+  onClick?: () => void;
 }
 
-function Card({ to, children }: PropsWithChildren<CardProps>) {
+function Card({
+  to,
+  className,
+  onClick,
+  children,
+}: PropsWithChildren<CardProps>) {
   const navigate = useNavigate();
 
   function handlerClick() {
+    onClick?.();
     navigate(to);
   }
 
   return (
     <CardContext.Provider value={{ to }}>
-      <Layout $bgColor="#2b2729" onClick={handlerClick}>
+      <Layout className={className} $bgColor="#2b2729" onClick={handlerClick}>
         {children}
       </Layout>
     </CardContext.Provider>
