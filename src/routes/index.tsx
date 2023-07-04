@@ -9,7 +9,6 @@ import {
 import { AppLayout, SearchLayout } from "@/layouts";
 // pages
 import { Home, loaderHome } from "./Home";
-import { Section } from "./Section";
 import { Album, loaderAlbum } from "./Album";
 import { Login, loaderLogin } from "./Login";
 import { Artist, loaderArtist } from "./Artist";
@@ -44,7 +43,6 @@ export const router = createBrowserRouter(
           <Route path=":filter" element={<Search />} />
         </Route>
       </Route>
-      <Route path="/section/:sectionId" element={<Section />} />
       <Route path="/album/:albumId" element={<Album />} loader={loaderAlbum} />
       <Route path="/artist/:artistId">
         <Route index element={<Artist />} loader={loaderArtist} />
