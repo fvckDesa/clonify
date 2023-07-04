@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useColumns } from "./useColumns";
-import { SectionFilter } from "./types";
+import Filters from "@components/Filters";
 import { Link } from "react-router-dom";
 import { Children, PropsWithChildren } from "react";
 
@@ -77,58 +77,6 @@ const UnderlineLink = styled(Link)`
   }
 `;
 
-export interface SectionFiltersProps<Filter> {
-  filters: SectionFilter<Filter>[] | readonly SectionFilter<Filter>[];
-  onFilterChange: (filter: Filter) => void;
-  activeFilter: Filter;
-}
-
-function SectionFilters<Filter>({
-  filters,
-  onFilterChange,
-  activeFilter,
-}: SectionFiltersProps<Filter>) {
-  return (
-    <Filters>
-      {filters.map(({ text, filter }) => (
-        <Label
-          key={filter as string}
-          $active={activeFilter === filter}
-          onClick={() => onFilterChange?.(filter)}
-        >
-          {text}
-        </Label>
-      ))}
-    </Filters>
-  );
-}
-
-const Filters = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const Label = styled.button<{ $active: boolean }>`
-  font-size: 0.875rem;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 32px;
-  background-color: ${({ $active }) => ($active ? "#fff" : "#ffffff12")};
-  color: ${({ $active }) => ($active ? "#000" : "#fff")};
-  transition: all 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ $active }) =>
-      $active ? "hsla(0, 0%, 100%, 0.9)" : "hsla(0, 0%, 100%, 0.1)"};
-  }
-
-  &::first-letter {
-    text-transform: capitalize;
-  }
-`;
-
 export interface SectionContainerProps {
   inline?: boolean;
 }
@@ -157,6 +105,6 @@ const Container = styled.div<{
 
 export default Object.assign(Section, {
   Header: SectionHeader,
-  Filters: SectionFilters,
+  Filters,
   Container: SectionContainer,
 });

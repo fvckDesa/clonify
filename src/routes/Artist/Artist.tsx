@@ -8,13 +8,13 @@ import Actions from "@components/Actions";
 import Section from "@components/Section";
 import Card from "@components/Card";
 import { columns } from "./columns";
-import { filters, Filter } from "./constants";
+import { filters, FilterValue } from "./constants";
 
 const SM_VIEW = 5;
 const LG_VIEW = 10;
 
 function Artist() {
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<FilterValue>("all");
   const { artist, topTracks, discography, appearsOn, relatedArtists } =
     useArtistData();
   const [isViewingMore, setIsViewingMore] = useState(false);
@@ -23,7 +23,7 @@ function Artist() {
     setIsViewingMore((prev) => !prev);
   }
 
-  function handlerFilterChange(filter: Filter) {
+  function handlerFilterChange(filter: FilterValue) {
     setFilter(filter);
   }
 
@@ -50,7 +50,9 @@ function Artist() {
           </button>
         </TopTracks>
         <Section>
-          <Section.Header redirect="discography">Discography</Section.Header>
+          <Section.Header redirect={`discography/${filter}`}>
+            Discography
+          </Section.Header>
           <Section.Filters
             filters={filters}
             activeFilter={filter}

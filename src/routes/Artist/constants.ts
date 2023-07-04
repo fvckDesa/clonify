@@ -1,7 +1,9 @@
-export const filters = [
-  { text: "all", filter: "all" },
-  { text: "album", filter: "album" },
-  { text: "single and EP", filter: "single" },
-] as const;
+import { Filter } from "@components/Filters";
 
-export type Filter = (typeof filters)[number]["filter"];
+export type FilterValue = "all" | "album" | "single";
+
+export const filters: Filter<FilterValue>[] = [
+  { label: "all", value: "all" },
+  { label: "album", value: "album" },
+  { label: "single and EP", value: "single" },
+];

@@ -34,7 +34,15 @@ export const router = createBrowserRouter(
       <Route index element={<Home />} loader={loaderHome} />
       <Route path="/search" element={<SearchLayout />}>
         <Route index element={<SearchHistory />} />
-        <Route path=":query" element={<Search />} loader={loaderSearch} />
+        <Route
+          path=":query"
+          id={RouterId.search}
+          element={<Search />}
+          loader={loaderSearch}
+        >
+          <Route index element={<Search />} />
+          <Route path=":filter" element={<Search />} />
+        </Route>
       </Route>
       <Route path="/section/:sectionId" element={<Section />} />
       <Route path="/album/:albumId" element={<Album />} loader={loaderAlbum} />

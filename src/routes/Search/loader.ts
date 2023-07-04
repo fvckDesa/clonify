@@ -17,8 +17,10 @@ export async function loader({
   const searchRes = await spotifyApi.request(
     urlSearchParams`/search?${{
       q: params.query,
-      type: ["album", "artist", "playlist", "track"].join(","),
-      limit: 8,
+      type:
+        params.filter?.slice(0, -1) ??
+        ["album", "artist", "playlist", "track"].join(","),
+      limit: params.filter ? 50 : 8,
     }}`
   );
 
@@ -30,9 +32,9 @@ export async function loader({
   }>(await searchRes.text(), "release_date");
 
   return {
-    albums: search.albums.items,
-    artists: search.artists.items,
-    playlists: search.playlists.items,
-    tracks: search.tracks.items,
+    albums: search.albums?.items ?? [],
+    artists: search.artists?.items ?? [],
+    playlists: search.playlists?.items ?? [],
+    tracks: search.tracks?.items ?? [],
   };
 }

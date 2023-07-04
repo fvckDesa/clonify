@@ -4,16 +4,21 @@ import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { MouseEvent, useDeferredValue, useEffect, useState } from "react";
 import SearchHistoryProvider from "@/context/SearchHistory";
+import Filters from "@components/Filters";
+import { filters, FilterValue } from "@/constants/searchFilter";
+
+type Params = "query" | "filter";
 
 function SearchLayout() {
-  const { query: queryParam = "" } = useParams<"query">();
+  const { query: queryParam = "", filter = "all" } = useParams<Params>();
   const [query, setQuery] = useState(queryParam);
   const deferredQuery = useDeferredValue(query);
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate(`/search/${encodeURIComponent(deferredQuery)}`);
-  }, [navigate, deferredQuery]);
+    const filterPath = filter === "all" || deferredQuery === "" ? "" : filter;
+    navigate(`/search/${encodeURIComponent(deferredQuery)}/${filterPath}`);
+  }, [navigate, deferredQuery, filter]);
 
   useEffect(() => {
     setQuery(queryParam);
@@ -22,6 +27,11 @@ function SearchLayout() {
   function handlerClear(e: MouseEvent) {
     e.stopPropagation();
     setQuery("");
+  }
+
+  function handlerFilterChange(filter: FilterValue) {
+    const filterPath = filter === "all" ? "" : filter;
+    navigate(`/search/${encodeURIComponent(deferredQuery)}/${filterPath}`);
   }
 
   return (
@@ -43,6 +53,13 @@ function SearchLayout() {
             </ClearBtn>
           )}
         </InputWrapper>
+        {query.length > 0 && (
+          <SearchFilters
+            filters={filters}
+            activeFilter={filter as FilterValue}
+            onFilterChange={handlerFilterChange}
+          />
+        )}
       </Header>
       <SearchHistoryProvider>
         <Outlet />
@@ -133,4 +150,8 @@ const ClearBtn = styled.button`
   color: #fff;
   z-index: 11;
   cursor: pointer;
+`;
+
+const SearchFilters = styled(Filters<FilterValue>)`
+  padding: 8px 24px;
 `;
