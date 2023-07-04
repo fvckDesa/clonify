@@ -30,7 +30,7 @@ function Playlist() {
 
   return (
     <Layout>
-      <PlaylistHeader cover={playlist.images[0].url} size={192}>
+      <PlaylistHeader cover={playlist.images[0]} size={192}>
         <h3 className="type">
           {playlist.public ? "public" : "private"} playlist
         </h3>

@@ -6,10 +6,11 @@ import {
   Columns,
   DurationContainer,
 } from "@components/CollectionList";
-import { PartialArtist } from "@/types/spotify";
+import FallbackImage from "@components/FallbackImage";
+import { Image, PartialArtist } from "@/types/spotify";
 
 export interface TrackRow {
-  title: { name: string; albumCover: string; authors: PartialArtist[] };
+  title: { name: string; albumCover: Image; authors: PartialArtist[] };
   duration: number;
 }
 
@@ -19,11 +20,13 @@ export const columns: Columns<TrackRow> = {
     width: "4fr",
     render: ({ name, albumCover, authors }) => (
       <TitleWrapper>
-        <img
+        <FallbackImage
           className="album-cover"
-          src={albumCover}
+          image={albumCover}
           alt={`${name} album cover`}
-        />
+        >
+          <FallbackImage.NoteIcon size="sm" />
+        </FallbackImage>
         <Container>
           <div className="track-name">{name}</div>
           <AuthorsList separator=",">
@@ -51,7 +54,6 @@ export const columns: Columns<TrackRow> = {
   },
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 const TitleWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -72,7 +74,6 @@ const TitleWrapper = styled.div`
   }
 `;
 
-// eslint-disable-next-line react-refresh/only-export-components
 const Container = styled.div`
   flex: 1;
   overflow: hidden;

@@ -15,7 +15,9 @@ function Related() {
         <Section.Container>
           {relatedArtists.map(({ id, images, name }) => (
             <Card key={id} to={`/artist/${id}`}>
-              <ArtistImage src={images[0].url} alt={`${name} image`} />
+              <ArtistImage image={images[0]} alt={`${name} image`}>
+                <Card.PersonIcon />
+              </ArtistImage>
               <Card.Name>{name}</Card.Name>
               <Card.Description>Artist</Card.Description>
             </Card>

@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { time, format } from "@utils/time";
 import { Columns, DurationContainer } from "@components/CollectionList";
 import StarPopularity from "@components/StarPopularity";
+import FallbackImage from "@components/FallbackImage";
+import { Image } from "@/types/spotify";
 
 export interface TrackRow {
-  title: { name: string; albumCover: string };
+  title: { name: string; albumCover: Image };
   popularity: number;
   duration: number;
 }
@@ -15,11 +17,13 @@ export const columns: Columns<TrackRow> = {
     width: "4fr",
     render: ({ name, albumCover }) => (
       <TitleWrapper>
-        <img
+        <FallbackImage
           className="album-cover"
-          src={albumCover}
+          image={albumCover}
           alt={`${name} album cover`}
-        />
+        >
+          <FallbackImage.NoteIcon size="sm" />
+        </FallbackImage>
         <div className="track-name">{name}</div>
       </TitleWrapper>
     ),
@@ -38,7 +42,6 @@ export const columns: Columns<TrackRow> = {
   },
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 const TitleWrapper = styled.div`
   flex: 1;
   display: flex;

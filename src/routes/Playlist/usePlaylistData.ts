@@ -16,7 +16,7 @@ export function usePlaylistData() {
           title: {
             name: track.name,
             authors: track.artists,
-            albumCover: track.album.images[0].url,
+            albumCover: track.album.images[0],
           },
           album: { name: track.album.name, id: track.album.id },
           addedAt: added_at,

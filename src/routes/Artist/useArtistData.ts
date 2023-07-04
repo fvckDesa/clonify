@@ -14,7 +14,7 @@ export function useArtistData() {
         id,
         title: {
           name,
-          albumCover: album.images[0].url,
+          albumCover: album.images[0],
         },
         popularity,
         duration: duration_ms,

@@ -51,7 +51,9 @@ function AlbumCard({ album }: AlbumCardProps) {
   return (
     <RelativeCard to={`/album/${id}`}>
       <RemoveBtn itemId={id} />
-      <Card.Image src={images[0].url} alt={`${name} image`} />
+      <Card.Image image={images[0]} alt={`${name} image`}>
+        <Card.NoteIcon />
+      </Card.Image>
       <Card.Name>{name}</Card.Name>
       <Card.Description separator={{ content: "•", space: 5 }}>
         <span>{release_date.getFullYear()}</span>
@@ -71,7 +73,9 @@ function ArtistCard({ artist }: ArtistCardProps) {
   return (
     <RelativeCard to={`/artist/${id}`}>
       <RemoveBtn itemId={id} />
-      <ArtistImage src={images[0].url} alt={`${name} image`} />
+      <ArtistImage image={images[0]} alt={`${name} image`}>
+        <Card.PersonIcon />
+      </ArtistImage>
       <Card.Name>{name}</Card.Name>
       <Card.Description>Artist</Card.Description>
     </RelativeCard>
@@ -92,7 +96,9 @@ function PlaylistCard({ playlist }: PlaylistCardProps) {
   return (
     <RelativeCard to={`/playlist/${id}`}>
       <RemoveBtn itemId={id} />
-      <Card.Image src={images[0].url} alt={`${name} image`} />
+      <Card.Image image={images[0]} alt={`${name} image`}>
+        <Card.NoteIcon />
+      </Card.Image>
       <Card.Name>{name}</Card.Name>
       <Card.Description>By {owner.display_name}</Card.Description>
     </RelativeCard>

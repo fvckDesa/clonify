@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Section from "@components/Section";
 import Card from "@components/Card";
 import PlayBtn from "@components/PlayBtn";
+import FallbackImage from "@components/FallbackImage";
 import { Link, useNavigate } from "react-router-dom";
 import { useHomeData } from "./useHomeData";
 
@@ -20,11 +21,13 @@ function Home() {
         <RecentlyPlayedLayout>
           {recentlyPlayed.slice(0, 6).map(({ id, images, name }) => (
             <RecentlyPlayed key={id} onClick={() => handlerClick(id)}>
-              <img
+              <FallbackImage
                 className="cover"
-                src={images[0].url}
+                image={images[0]}
                 alt={`${name} cover`}
-              />
+              >
+                <FallbackImage.NoteIcon size="sm" />
+              </FallbackImage>
               <div className="container">
                 <AlbumName to={`/album/${id}`} title={name}>
                   {name}
@@ -40,7 +43,9 @@ function Home() {
         <Section.Container inline>
           {newReleases.map(({ id, images, name, artists }) => (
             <Card key={id} to={`/album/${id}`}>
-              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Image image={images[0]} alt={`${name} image`}>
+                <Card.NoteIcon />
+              </Card.Image>
               <Card.Name>{name}</Card.Name>
               <ArtistsLinks separator=",">
                 {artists.map(({ id, name }) => (
@@ -62,7 +67,9 @@ function Home() {
         <Section.Container inline>
           {followedAlbums.map(({ id, images, name, artists }) => (
             <Card key={id} to={`/album/${id}`}>
-              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Image image={images[0]} alt={`${name} image`}>
+                <Card.NoteIcon />
+              </Card.Image>
               <Card.Name>{name}</Card.Name>
               <ArtistsLinks separator=",">
                 {artists.map(({ id, name }) => (
@@ -129,11 +136,14 @@ const RecentlyPlayed = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 5px;
     padding: 0 16px;
+    overflow: hidden;
   }
 `;
 
 const AlbumName = styled(Link)`
+  flex: 1;
   font-size: 16px;
   overflow: hidden;
   white-space: nowrap;

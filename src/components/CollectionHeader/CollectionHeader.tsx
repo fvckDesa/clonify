@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { ReactNode } from "react";
+import FallbackImage, { FallbackImageProps } from "@components/FallbackImage";
 export interface CollectionHeaderProps {
-  cover: string;
+  cover: FallbackImageProps["image"];
   size: number;
   className?: string;
   children?: ReactNode | ReactNode[];
@@ -15,7 +16,9 @@ function CollectionHeader({
 }: CollectionHeaderProps) {
   return (
     <Header className={className}>
-      <Cover src={cover} $size={size} />
+      <Cover image={cover} $size={size}>
+        <FallbackImage.NoteIcon />
+      </Cover>
       <TextContainer>{children}</TextContainer>
     </Header>
   );
@@ -26,7 +29,7 @@ const Header = styled.header`
   gap: 24px;
 `;
 
-const Cover = styled.img<{ $size: number }>`
+const Cover = styled(FallbackImage)<{ $size: number }>`
   align-self: flex-end;
   width: ${(props) => `${props.$size}px`};
   height: ${(props) => `${props.$size}px`};

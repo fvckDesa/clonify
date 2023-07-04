@@ -45,7 +45,7 @@ function Album() {
 
   return (
     <Wrapper>
-      <AlbumHeader cover={album.images[0].url} size={192}>
+      <AlbumHeader cover={album.images[0]} size={192}>
         <h3 className="type">{type}</h3>
         <h1 className="title">{album.name}</h1>
         <Info>
@@ -69,11 +69,15 @@ function Album() {
       <FullActions isPlaying={isPlaying} size="lg" onClick={handlerClick} />
       <CollectionList columns={columns} items={tracks} />
       <ArtistSection>
-        <Section.Header>Other of Artist</Section.Header>
+        <Section.Header redirect={`/artist/${album.artists[0].id}/discography`}>
+          Other of Artist
+        </Section.Header>
         <Section.Container inline>
           {otherAlbums.map(({ id, images, name, release_date }) => (
             <Card key={id} to={`/album/${id}`}>
-              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Image image={images[0]} alt={`${name} image`}>
+                <Card.NoteIcon />
+              </Card.Image>
               <Card.Name>{name}</Card.Name>
               <Card.Description>{release_date.getFullYear()}</Card.Description>
             </Card>

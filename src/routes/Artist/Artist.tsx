@@ -29,7 +29,7 @@ function Artist() {
 
   return (
     <>
-      <ArtistHeader cover={artist.images[0].url} size={220}>
+      <ArtistHeader cover={artist.images[0]} size={220}>
         <h1 className="name">{artist.name}</h1>
         <span className="followers">
           {new Intl.NumberFormat().format(artist.followers.total)} followers
@@ -63,7 +63,9 @@ function Artist() {
               )
               .map(({ id, images, name, release_date, album_type }) => (
                 <Card key={id} to={`/album/${id}`}>
-                  <Card.Image src={images[0].url} alt={`${name} image`} />
+                  <Card.Image image={images[0]} alt={`${name} image`}>
+                    <Card.NoteIcon />
+                  </Card.Image>
                   <Card.Name>{name}</Card.Name>
                   <Card.Description separator={{ content: "•", space: 5 }}>
                     <span>{release_date.getFullYear()}</span>
@@ -80,7 +82,9 @@ function Artist() {
           <Section.Container inline>
             {relatedArtists.map(({ id, images, name }) => (
               <Card key={id} to={`/artist/${id}`}>
-                <ArtistImage src={images[0].url} alt={`${name} image`} />
+                <ArtistImage image={images[0]} alt={`${name} image`}>
+                  <Card.PersonIcon />
+                </ArtistImage>
                 <Card.Name>{name}</Card.Name>
                 <Card.Description>Artist</Card.Description>
               </Card>
@@ -92,7 +96,9 @@ function Artist() {
           <Section.Container inline>
             {appearsOn.map(({ id, images, name, release_date, album_type }) => (
               <Card key={id} to={`/album/${id}`}>
-                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Image image={images[0]} alt={`${name} image`}>
+                  <Card.NoteIcon />
+                </Card.Image>
                 <Card.Name>{name}</Card.Name>
                 <Card.Description separator={{ content: "•", space: 5 }}>
                   <span>{release_date.getFullYear()}</span>

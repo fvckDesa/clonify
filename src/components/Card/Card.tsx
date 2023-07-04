@@ -1,13 +1,9 @@
 import styled from "styled-components";
-import {
-  ImgHTMLAttributes,
-  PropsWithChildren,
-  createContext,
-  useContext,
-} from "react";
+import { PropsWithChildren, createContext, useContext } from "react";
 import { Link, LinkProps, To, useNavigate } from "react-router-dom";
 import PlayBtn from "@components/PlayBtn";
 import InlineList, { InlineListProps } from "@components/InlineList";
+import FallbackImage, { FallbackImageProps } from "@components/FallbackImage";
 
 interface CardContextProps {
   to: To;
@@ -58,7 +54,7 @@ const Layout = styled.div<{ $bgColor: string }>`
   }
 `;
 
-export type ImageProps = ImgHTMLAttributes<HTMLImageElement>;
+export type ImageProps = FallbackImageProps;
 
 function Image(imgProps: ImageProps) {
   return (
@@ -76,7 +72,7 @@ const Container = styled.span`
   overflow: hidden;
 `;
 
-const Img = styled.img`
+const Img = styled(FallbackImage)`
   width: 100%;
   height: 100%;
   border-radius: 6px;
@@ -141,4 +137,8 @@ const DescriptionList = styled(InlineList)`
   overflow: hidden;
 `;
 
-export default Object.assign(Card, { Image, Name, Description });
+export default Object.assign(
+  Card,
+  { Image, Name, Description },
+  { ...FallbackImage }
+);

@@ -69,7 +69,7 @@ function Discography({ filter = "all" }: DiscographyProps) {
               tracks,
             }) => (
               <li key={id}>
-                <AlbumHeader cover={images[0].url} size={136}>
+                <AlbumHeader cover={images[0]} size={136}>
                   <Name>
                     <Link to={`/album/${id}`}>{name}</Link>
                   </Name>
@@ -91,7 +91,9 @@ function Discography({ filter = "all" }: DiscographyProps) {
             {discography.map(
               ({ id, images, name, release_date, album_type }) => (
                 <Card key={id} to={`/album/${id}`}>
-                  <Card.Image src={images[0].url} alt={`${name} image`} />
+                  <Card.Image image={images[0]} alt={`${name} image`}>
+                    <Card.NoteIcon />
+                  </Card.Image>
                   <Card.Name>{name}</Card.Name>
                   <Card.Description separator={{ content: "•", space: 5 }}>
                     <span>{release_date.getFullYear()}</span>

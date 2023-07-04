@@ -25,7 +25,9 @@ function Search() {
                 to={`/artist/${id}`}
                 onClick={() => setItem(artist)}
               >
-                <ArtistImage src={images[0]?.url} alt={`${name} image`} />
+                <ArtistImage image={images[0]} alt={`${name} image`}>
+                  <Card.PersonIcon />
+                </ArtistImage>
                 <Card.Name>{name}</Card.Name>
                 <Card.Description>Artist</Card.Description>
               </Card>
@@ -40,7 +42,9 @@ function Search() {
             const { id, images, name, release_date, artists } = album;
             return (
               <Card key={id} to={`/album/${id}`} onClick={() => setItem(album)}>
-                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Image image={images[0]} alt={`${name} image`}>
+                  <Card.NoteIcon />
+                </Card.Image>
                 <Card.Name>{name}</Card.Name>
                 <Card.Description separator={{ content: "•", space: 5 }}>
                   <span>{release_date.getFullYear()}</span>
@@ -62,7 +66,9 @@ function Search() {
                 to={`/artist/${id}`}
                 onClick={() => setItem(playlist)}
               >
-                <Card.Image src={images[0].url} alt={`${name} image`} />
+                <Card.Image image={images[0]} alt={`${name} image`}>
+                  <Card.NoteIcon />
+                </Card.Image>
                 <Card.Name>{name}</Card.Name>
                 <Card.Description>By {owner.display_name}</Card.Description>
               </Card>

@@ -14,7 +14,9 @@ function AppearsOn() {
         <Section.Container>
           {appearsOn.map(({ id, images, name, artists }) => (
             <Card key={id} to={`/album/${id}`}>
-              <Card.Image src={images[0].url} alt={`${name} image`} />
+              <Card.Image image={images[0]} alt={`${name} image`}>
+                <Card.NoteIcon />
+              </Card.Image>
               <Card.Name>{name}</Card.Name>
               <ArtistsLinks separator=",">
                 {artists.map(({ id, name }) => (

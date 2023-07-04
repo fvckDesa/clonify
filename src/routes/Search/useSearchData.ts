@@ -11,7 +11,7 @@ export function useSearchData() {
     () =>
       tracks.map(({ id, name, album, artists, duration_ms }) => ({
         id,
-        title: { name, albumCover: album.images[0].url, authors: artists },
+        title: { name, albumCover: album.images[0], authors: artists },
         duration: duration_ms,
       })),
     [tracks]
