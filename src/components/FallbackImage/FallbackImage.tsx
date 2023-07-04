@@ -42,7 +42,7 @@ function FallbackImage({
 
   return (
     <ImageContainer className={className} style={{ width, height }}>
-      {isFallbackActive ? (
+      {!src || isFallbackActive ? (
         children
       ) : (
         <img
