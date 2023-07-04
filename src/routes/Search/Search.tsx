@@ -173,7 +173,9 @@ function Playlists({ items, inline = false }: PlaylistsProps) {
                 <Card.NoteIcon />
               </Card.Image>
               <Card.Name>{name}</Card.Name>
-              <Card.Description>By {owner.display_name}</Card.Description>
+              <Card.Description>
+                <span>By {owner.display_name}</span>
+              </Card.Description>
             </Card>
           );
         })}
